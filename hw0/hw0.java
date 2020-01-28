@@ -27,7 +27,7 @@ public class hw0 {
     return false;
   }
 
-  public static boolean threesumDistinct(int[] a) {
+  public static boolean threeSumDistinct(int[] a) {
     for (int x = 0; x < a.length; x += 1) {
       for (int y = 0; y < a.length; y += 1) {
         for (int z = 0; z < a.length; z += 1) {
