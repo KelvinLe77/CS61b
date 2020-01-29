@@ -22,23 +22,23 @@ public class Tester {
      * get them to work, but it's all good practice! */
 
     @Test
-    public void max() {
+    public void maxTest() {
         // Change call to max to make this call yours.
-        assertEquals(14, max(new int[] { 0, -5, 2, 14, 10 }));
+        assertEquals(14, hw0.max(new int[] { 0, -5, 2, 14, 10 }));
         // REPLACE THIS WITH MORE TESTS.
     }
 
     @Test
-    public void threeSum() {
+    public void threeSumTest() {
         // Change call to threeSum to make this call yours.
-        assertTrue(threeSum(new int[] { -6, 3, 10, 200 }));
+        assertTrue(hw0.threeSum(new int[] { -6, 3, 10, 200 }));
         // REPLACE THIS WITH MORE TESTS.
     }
 
     @Test
-    public void threeSumDistinct() {
+    public void threeSumDistinctTest() {
         // Change call to threeSumDistinct to make this call yours.
-        assertFalse(threeSumDistinct(new int[] { -6, 3, 10, 200 }));
+        assertFalse(hw0.threeSumDistinct(new int[] { -6, 3, 10, 200 }));
         // REPLACE THIS WITH MORE TESTS.
     }
 
