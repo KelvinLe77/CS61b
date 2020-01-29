@@ -1,5 +1,10 @@
 public class hw0 {
 
+  public static void main(String[] args) {
+    int[] b = {1, 2, 1, -2, 5};
+    System.out.println(threeSumDistinct(b));
+  }
+
   public static int max(int[] a) {
     int max = a[0];
     int pointer = 0;
@@ -18,9 +23,6 @@ public class hw0 {
           if (a[x] + a[y] + a[z] == 0) {
             return true;
           }
-          else {
-            return false;
-          }
         }
       }
     }
@@ -33,9 +35,6 @@ public class hw0 {
         for (int z = 0; z < a.length; z += 1) {
           if (a[x] + a[y] + a[z] == 0 && x != y && y != z && x != z) {
             return true;
-          }
-          else {
-            return false;
           }
         }
       }
