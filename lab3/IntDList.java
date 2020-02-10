@@ -48,7 +48,19 @@ public class IntDList {
      */
     public int size() {
         // FIXME: Implement this method and return correct value
-        return 0;
+        if (_front == null) {
+            return 0;
+        }
+        else {
+            DNode beginning = _front;
+            int numElements = 1;
+            for (int i = 1; beginning != null; i += 1) {
+                beginning = beginning._next;
+                numElements = i;
+            }
+            return numElements;
+        }
+
     }
 
     /**
@@ -62,8 +74,26 @@ public class IntDList {
      * @return The integer value at index i
      */
     public int get(int i) {
-        // FIXME: Implement this method and return correct value
-        return 0;
+        if (i > 0) {
+            DNode beginning = _front;
+            while (i > 0) {
+                beginning = beginning._next;
+                i -= 1;
+            }
+            return beginning._val;
+        }
+        else if (i < 0) {
+            i += 1;
+            DNode end = _back;
+            while (i < 0) {
+                end = end._prev;
+                i += 1;
+            }
+            return end._val;
+        }
+        else {
+            return _front._val;
+        }
     }
 
     /**
@@ -71,6 +101,15 @@ public class IntDList {
      */
     public void insertFront(int d) {
         // FIXME: Implement this method
+        if (_front == null) {
+            _front = _back = new DNode(d);
+        }
+        else {
+            DNode newFront = new DNode(d);
+            newFront._next = _front;
+            _front._prev = newFront;
+            _front = newFront;
+        }
     }
 
     /**
@@ -78,6 +117,15 @@ public class IntDList {
      */
     public void insertBack(int d) {
         // FIXME: Implement this method
+        if (_back == null) {
+            _front = _back = new DNode(d);
+        }
+        else {
+            DNode newBack = new DNode(d);
+            newBack._prev = _back;
+            _back._next = newBack;
+            _back = newBack;
+        }
     }
 
     /**
@@ -102,7 +150,17 @@ public class IntDList {
      */
     public int deleteFront() {
         // FIXME: Implement this method and return correct value
-        return 0;
+        int frontToReturn;
+        if (_front._next == null) {
+            frontToReturn = _front._val;
+            _front = _back = null;
+        }
+        else {
+            frontToReturn = _front._val;
+            _front = _front._next;
+            _front._prev = null;
+        }
+        return frontToReturn;
     }
 
     /**
@@ -112,7 +170,17 @@ public class IntDList {
      */
     public int deleteBack() {
         // FIXME: Implement this method and return correct value
-        return 0;
+        int backToReturn;
+        if (_back._prev == null) {
+            backToReturn = _back._val;
+            _front = _back = null;
+        }
+        else {
+            backToReturn = _back._val;
+            _back = _back._prev;
+            _back._next = null;
+        }
+        return backToReturn;
     }
 
     /**
@@ -128,7 +196,84 @@ public class IntDList {
      */
     public int deleteAtIndex(int index) {
         // FIXME: Implement this method and return correct value
-        return 0;
+        /**int deleteVal = 0;
+        if (index > 0 && size() > 0) {
+            DNode beg = _front;
+            for (int i = 0; i < index; i += 1) {
+                beg = beg._next;
+            }
+            deleteVal = beg._val;
+            if (beg._prev != null && beg._next != null) {
+                beg._prev._next = beg._next;
+                beg._next._prev = beg._prev;
+            }
+            else {
+                beg._next._prev = null;
+                _front = beg._next;
+            }
+        }
+        else if (index < 0 && size() > 0) {
+            index += 1;
+            DNode end = _back;
+            for (int i = 0; i > index; i -= 1) {
+                end = end._prev;
+            }
+            deleteVal = end._val;
+            if (end._prev != null && end._next != null) {
+                end._prev._next = end._next;
+                end._next._prev = end._prev;
+            }
+            else {
+                end._prev._next = null;
+                _back = end._prev;
+            }
+        }
+        else {
+            deleteVal = _front._val;
+            _front = _back = null;
+        }
+        return deleteVal;*/
+
+        DNode pointer = _front;
+        int value;
+        if (index > 0) {
+            pointer = _front;
+            while (index > 0) {
+                pointer = pointer._next;
+                index -= 1;
+            }
+        }
+        else if (index < 0) {
+            index += 1;
+            pointer = _back;
+            while (index < 0) {
+                pointer = pointer._prev;
+                index += 1;
+            }
+        }
+
+        if (pointer._prev != null && pointer._next != null) {
+            value = pointer._val;
+            pointer._prev._next = pointer._next;
+            pointer._next._prev = pointer._prev;
+        }
+        else if (pointer._prev == null && pointer._next != null) {
+            value = pointer._val;
+            pointer._next._prev = null;
+            _front = pointer._next;
+        }
+        else if (pointer._prev != null && pointer._next == null) {
+            value = pointer._val;
+            pointer._prev._next = null;
+            _back = pointer._prev;
+        }
+        else {
+            value = _front._val;
+            _front = _back = null;
+            return value;
+        }
+
+        return value;
     }
 
     /**
@@ -141,7 +286,16 @@ public class IntDList {
      */
     public String toString() {
         // FIXME: Implement this method to return correct value
-        return null;
+        if (size() == 0) {
+            return "[]";
+        }
+        String str = "[";
+        DNode curr = _front;
+        for (; curr._next != null; curr = curr._next) {
+            str += curr._val + ", ";
+        }
+        str += curr._val +"]";
+        return str;
     }
 
     /**
