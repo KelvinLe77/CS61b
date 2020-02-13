@@ -239,6 +239,7 @@ public class ModelTests {
        This test requires that you pass sqConnectTest.
      */
 
+
     @Test
     public void sqDisconnectTest() {
         Model model = new Model(tr(SOLN1));
@@ -295,6 +296,16 @@ public class ModelTests {
         checkSquare(s8, s8, null, null, 0, -1);
         checkSquare(s9, s9, null, null, 9, 0);
     }
+
+    /**@Test
+    public void arrowDirectionTest() {
+        Model model = new Model(tr(SOLN1));
+        assertEquals(8, model.arrowDirection(0, 0));
+        assertEquals(3, model.arrowDirection(0, 1));
+        assertEquals(3, model.arrowDirection(1, 1));
+        assertEquals(1, model.arrowDirection(1, 0));
+    assertEquals(0, model.arrowDirection(3, 0));
+    }*/
 
     /* The following array data is written to look on the page like
      * the arrangement of data on the screen, with the first row

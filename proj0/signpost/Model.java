@@ -263,6 +263,13 @@ class Model implements Iterable<Model.Sq> {
     private int arrowDirection(int x, int y) {
         int seq0 = _solution[x][y];
         // FIXME
+        for (int sucX = 0; sucX < _solution.length; sucX += 1) {
+            for (int sucY = 0; sucY < _solution[sucX].length; sucY += 1) {
+                if (_solution[sucX][sucY] == seq0 + 1) {
+                    return Place.dirOf(x, y, sucX, sucY);
+                }
+            }
+        }
         return 0;
     }
 
@@ -519,9 +526,31 @@ class Model implements Iterable<Model.Sq> {
          *  + If neither S1 nor this square have sequence numbers, then
          *    they are not part of the same connected sequence.
          */
+        /**else if (s1.predecessor() != null || this.successor() != null || s1.sequenceNum() == 1 || this.sequenceNum() == height() * width()) {
+            return false;
+         }
+         */
         boolean connectable(Sq s1) {
             // FIXME
-            return true;
+            if (this.direction() != Place.dirOf(this.x, this.y, s1.x, s1.y)) {
+                return false;
+            } else if (s1.predecessor() != null || this.successor() != null) {
+                return false;
+            } else if (s1.sequenceNum() == 1 || this.sequenceNum() == height() * width()) {
+                return false;
+            } else if (s1.sequenceNum() != 0 && this.sequenceNum() != 0) {
+                if (s1.sequenceNum() - 1 != this.sequenceNum()) {
+                    return false;
+                }
+                return true;
+            } else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
+                if (s1.group() == this.group() && s1.group() == -1) {
+                    return true;
+                }
+                return false;
+            } else {
+                return true;
+            }
         }
 
         /** Connect this square to S1, if both are connectable; otherwise do
@@ -550,6 +579,45 @@ class Model implements Iterable<Model.Sq> {
             //        + If both this square and S1 are unnumbered, set the
             //          group of this square's head to the result of joining
             //          the two groups.
+            boolean headNumbered = false; boolean sucNumbered = false;
+            this._successor = s1; s1._predecessor = this;
+            Sq currentSuc = this; int currentSucSeqNum = this.sequenceNum();
+
+            if (currentSucSeqNum != 0) {
+                while (currentSuc.successor() != null) {
+                    currentSuc = currentSuc.successor();
+                    currentSucSeqNum += 1;
+                    currentSuc._sequenceNum = currentSucSeqNum;
+                }
+                sucNumbered = true;
+            }
+
+            Sq currentPred = s1; int currentPreSeqNum = s1._sequenceNum;
+            if (s1._sequenceNum != 0) {
+                while (currentPred.predecessor() != null) {
+                    currentPred = currentPred.predecessor();
+                    currentPreSeqNum -= 1;
+                    currentPred._sequenceNum = currentPreSeqNum;
+                }
+                headNumbered = true;
+            }
+
+            Sq thisCopy = this;
+            while (thisCopy.successor() != null) {
+                thisCopy._successor._head = thisCopy._head;
+                thisCopy = thisCopy.successor();
+            }
+
+            if (!sucNumbered) {
+                releaseGroup(s1.group());
+            }
+            if (!headNumbered) {
+                releaseGroup(this.group());
+            }
+            //sucNumbered == false && headNumbered == false
+            if (this.group() == -1 && s1.group() == -1) {
+                this._head._group = joinGroups(this.group(), s1.group());
+            }
 
             return true;
         }
@@ -563,28 +631,82 @@ class Model implements Iterable<Model.Sq> {
             _unconnected += 1;
             next._predecessor = _successor = null;
             if (_sequenceNum == 0) {
-                // FIXME: If both this and next are now one-element groups,
-                //        release their former group and set both group
-                //        numbers to -1.
-                //        Otherwise, if either is now a one-element group, set
-                //        its group number to -1 without releasing the group
-                //        number.
-                //        Otherwise, the group has been split into two multi-
-                //        element groups.  Create a new group for next.
+                if (this.predecessor() == null && next.successor() == null) {
+                    releaseGroup(this._group); releaseGroup(next._group);
+                    this._group = next._group = -1;
+                } else if (this.predecessor() == null) {
+                    this._group = -1;
+                } else if (next.successor() == null) {
+                    next._group = -1;
+
+                } else {
+                    Sq nextCopy = next;
+                    int newGroup = newGroup();
+                    while (nextCopy != null) {
+                        nextCopy._group = newGroup;
+                        nextCopy = nextCopy.successor();
+                    }
+                }
             } else {
-                // FIXME: If neither this nor any square in its group that
-                //        precedes it has a fixed sequence number, set all
-                //        their sequence numbers to 0 and create a new group
-                //        for them if this has a current predecessor (other
-                //        set group to -1).
-                // FIXME: If neither next nor any square in its group that
-                //        follows it has a fixed sequence number, set all
-                //        their sequence numbers to 0 and create a new
-                //        group for them if next has a current successor
-                //        (otherwise set next's group to -1.)
+                if (this._predecessor == null && !this._hasFixedNum) {
+                    this._group = -1;
+                    this._sequenceNum = 0;
+                } else if (this.predecessor() == null && this._hasFixedNum) {
+                    this._group = -1;
+                } else if (this._predecessor != null) {
+                    boolean hasFixed = false;
+                    Sq thisCopy = this;
+                    while (thisCopy != null) {
+                        if (thisCopy.hasFixedNum()) {
+                            hasFixed = true;
+                            thisCopy = thisCopy.predecessor();
+                        } else {
+                            thisCopy = thisCopy.predecessor();
+                        }
+                    }
+                    if (!hasFixed) {
+                        Sq thisPreCopy = this;
+                        int disconnectPreGroup = newGroup();
+                        while (thisPreCopy != null) {
+                            thisPreCopy._sequenceNum = 0;
+                            thisPreCopy._group = disconnectPreGroup;
+                            thisPreCopy = thisPreCopy.predecessor();
+                        }
+                    }
+                }
+                if (next._successor == null && !next._hasFixedNum) {
+                    next._group = -1;
+                    next._sequenceNum = 0;
+                } else if (this.predecessor() == null && this._hasFixedNum) {
+                    this._group = -1;
+                } else if (next._successor != null) {
+                    boolean hasFixed = false;
+                    Sq nextCopy = next;
+                    while (nextCopy != null) {
+                        if (nextCopy.hasFixedNum()) {
+                            hasFixed = true;
+                            nextCopy = nextCopy.successor();
+                        } else {
+                            nextCopy = nextCopy.successor();
+                        }
+                    }
+                    if (!hasFixed) {
+                        Sq thisNextCopy = next;
+                        int disconnectNextGroup = newGroup();
+                        while (thisNextCopy != null) {
+                            thisNextCopy._sequenceNum = 0;
+                            thisNextCopy._group = disconnectNextGroup;
+                            thisNextCopy = thisNextCopy.successor();
+                        }
+                    }
+                }
             }
-            // FIXME: Set the _head of next and all squares in its group to
-            //        next.
+            next._head = next;
+            Sq nextCopy = next.successor();
+            while (nextCopy != null) {
+                nextCopy._head = next;
+                nextCopy = nextCopy.successor();
+            }
         }
 
         @Override
