@@ -15,7 +15,23 @@ class Arrays {
      *  the elements of B. */
     static int[] catenate(int[] A, int[] B) {
         /* *Replace this body with the solution. */
-        return null;
+        if (A == null) {
+            return B;
+        } if (B == null) {
+            return A;
+        }
+
+        int[] zeroArray = new int[A.length + B.length];
+        int currIndexAB = 0; int currindexB = 0;
+        while (currIndexAB < A.length) {
+            zeroArray[currIndexAB] = A[currIndexAB];
+            currIndexAB += 1;
+        }
+        while (currindexB < B.length) {
+            zeroArray[currIndexAB] = B[currindexB];
+            currIndexAB += 1; currindexB += 1;
+        }
+        return zeroArray;
     }
 
     /* C2. */
@@ -23,7 +39,32 @@ class Arrays {
      *  beginning with item #START. */
     static int[] remove(int[] A, int start, int len) {
         /* *Replace this body with the solution. */
-        return null;
+        if (A.length == 0) {
+            return null;
+        }
+        if (start >= A.length) {
+            return null;
+        }
+        if (len == 0) {
+            return A;
+        }
+        int[] newArray = new int[A.length - len];
+        int indexA = 0; int indexNewArr = 0;
+        int length = A.length - len;
+        while (start > 0) {
+            newArray[indexNewArr] = A[indexA];
+            indexNewArr += 1; indexA += 1;
+            start -= 1;
+        }
+        while (start == 0 && len > 0) {
+            indexA += 1;
+            len -= 1;
+        }
+        while (indexNewArr < length) {
+            newArray[indexNewArr] = A[indexA];
+            indexNewArr += 1; indexA += 1;
+        }
+        return newArray;
     }
 
     /* C3. */

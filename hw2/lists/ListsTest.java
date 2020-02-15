@@ -11,6 +11,16 @@ import static org.junit.Assert.*;
 public class ListsTest {
     /** FIXME
      */
+    @Test
+    public void testnaturalRuns() {
+        IntList A = IntList.list(1, 4, 3, 4, 5);
+        IntListList result = IntListList.list(IntList.list(1, 4), IntList.list(3, 4, 5));
+        assertEquals(result, Lists.naturalRuns(A));
+
+        IntList B = IntList.list(1, 4, 3, 2, 5);
+        IntListList result2 = IntListList.list(IntList.list(1, 4), IntList.list(3), IntList.list(2, 5));
+        assertEquals(result2, Lists.naturalRuns(B));
+    }
 
     // It might initially seem daunting to try to set up
     // IntListList expected.
