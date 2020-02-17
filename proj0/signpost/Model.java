@@ -289,13 +289,27 @@ class Model implements Iterable<Model.Sq> {
      *  unconnected and are separated by a queen move.  Returns true iff
      *  any changes were made. */
     boolean autoconnect() {
-        return false; // FIXME
+        boolean changed = false;
+        for (Sq base : _allSquares) {
+            for (int j = 0; j < _allSquares.size(); j += 1) {
+                Sq connectTo = _allSquares.get(j);
+                if (base.connectable(connectTo)) {
+                    changed = true;
+                    base.connect(connectTo);
+                }
+            }
+        }
+        return changed;
     }
 
     /** Sets the numbers in this board's squares to the solution from which
      *  this board was last initialized by the constructor. */
     void solve() {
-        // FIXME
+        for (int i = 0; i < _width; i += 1) {
+            for (int j = 0; j < _height; j += 1) {
+                _board[i][j]._sequenceNum = _solution[i][j];
+            }
+        }
         _unconnected = 0;
     }
 
