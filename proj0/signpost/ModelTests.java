@@ -20,51 +20,57 @@ import static signpost.Utils.assertSetEquals;
  */
 public class ModelTests {
 
-    /** Check that MODEL is a valid representation of the partial solution in
-     *  SOLUTION, and that the fixed numbers in it are precisely FIXED.
-     *  SOLUTION may contain 0's, indicating squares that are not yet
-     *  sequenced. */
+    /**
+     * Check that MODEL is a valid representation of the partial solution in
+     * SOLUTION, and that the fixed numbers in it are precisely FIXED.
+     * SOLUTION may contain 0's, indicating squares that are not yet
+     * sequenced.
+     */
     static void checkNumbers(int[][] solution, Model model,
                              Collection<Integer> fixed) {
         assertEquals("Wrong model width", solution.length, model.width());
         assertEquals("Wrong model height", solution[0].length, model.height());
         assertEquals("Wrong model size", solution.length * solution[0].length,
-                     model.size());
+                model.size());
         HashSet<Integer> actualFixed = new HashSet<>();
         for (int x = 0; x < model.width(); x += 1) {
             for (int y = 0; y < model.height(); y += 1) {
                 Sq sq = model.get(x, y);
                 assertEquals(msg("Wrong at (%d, %d)", x, y),
-                             solution[x][y], sq.sequenceNum());
+                        solution[x][y], sq.sequenceNum());
                 if (sq.hasFixedNum()) {
                     actualFixed.add(sq.sequenceNum());
                 }
             }
         }
         assertEquals("Fixed positions differ", new HashSet<Integer>(fixed),
-                     actualFixed);
+                actualFixed);
     }
 
-    /** Check that the arrow directions in MODEL agree with DIRS.  The
-     *  direction of the arrow at (x, y) in MODEL should be DIRS[x][y]. */
+    /**
+     * Check that the arrow directions in MODEL agree with DIRS.  The
+     * direction of the arrow at (x, y) in MODEL should be DIRS[x][y].
+     */
     static void checkArrows(int[][] dirs, Model model) {
         for (int x = 0; x < model.width(); x += 1) {
             for (int y = 0; y < model.height(); y += 1) {
                 assertEquals(msg("Arrows differ at (%d, %d)", x, y),
-                             dirs[x][y], model.get(x, y).direction());
+                        dirs[x][y], model.get(x, y).direction());
             }
         }
     }
 
-    /** Check that the model.Sq has the correct attributes. */
+    /**
+     * Check that the model.Sq has the correct attributes.
+     */
     static void checkSquare(Sq sq, Sq head, Sq predecessor, Sq successor,
                             int seqNum, int group) {
         assertEquals("Sq has incorrect group head.", head, sq.head());
         assertEquals("Sq has incorrect predecessor.",
-                     predecessor, sq.predecessor());
+                predecessor, sq.predecessor());
         assertEquals("Sq has incorrect successor.", successor, sq.successor());
         assertEquals("Sq has incorrect sequence number.",
-                     seqNum, sq.sequenceNum());
+                seqNum, sq.sequenceNum());
         assertEquals("Sq has incorrect group number.", group, sq.group());
     }
 
@@ -91,7 +97,7 @@ public class ModelTests {
                 for (Sq sq : model) {
                     if (x == sq.x && y == sq.y) {
                         assertEquals(msg("Wrong number at (%d, %d)", x, y),
-                                     soln[x][y], sq.sequenceNum());
+                                soln[x][y], sq.sequenceNum());
                         continue YLoop;
                     }
                 }
@@ -105,11 +111,11 @@ public class ModelTests {
         Model model = new Model(tr(SOLN2));
         for (Sq sq : model) {
             assertEquals(msg("Wrong square at (%d, %d)", sq.x, sq.y),
-                         sq, model.get(sq.x, sq.y));
+                    sq, model.get(sq.x, sq.y));
             assertEquals(msg("Wrong square at Place %s", sq.pl),
-                         sq, model.get(sq.pl));
+                    sq, model.get(sq.pl));
             assertEquals(msg("Wrong Place at (%d, %d)", sq.x, sq.y),
-                         pl(sq.x, sq.y), sq.pl);
+                    pl(sq.x, sq.y), sq.pl);
         }
     }
 
@@ -158,7 +164,7 @@ public class ModelTests {
 
     @Test
     public void autoConnectTest1() {
-        Model model = new Model(tr(new int[][] { { 1, 2 } }));
+        Model model = new Model(tr(new int[][]{{1, 2}}));
         model.autoconnect();
         assertTrue("Trivial puzzle should be solved at birth.", model.solved());
     }
@@ -188,7 +194,7 @@ public class ModelTests {
         checkSquare(s1, s1, null, null, 0, -1);
 
         assertFalse("Squares must be one queen move away and in the "
-                    + "correct direction.", s1.connect(s2));
+                + "correct direction.", s1.connect(s2));
         checkSquare(s1, s1, null, null, 0, -1);
         checkSquare(s2, s2, null, null, 0, -1);
 
@@ -197,17 +203,17 @@ public class ModelTests {
         checkSquare(s3, s1, s1, null, 0, 1);
 
         assertFalse("Unnumbered squares in same group are not connectable.",
-                    s3.connect(s1));
+                s3.connect(s1));
         checkSquare(s1, s1, null, s3, 0, 1);
         checkSquare(s3, s1, s1, null, 0, 1);
 
         assertFalse("Next square cannot already have a predecessor.",
-                    s2.connect(s3));
+                s2.connect(s3));
         checkSquare(s2, s2, null, null, 0, -1);
         checkSquare(s3, s1, s1, null, 0, 1);
 
         assertFalse("Current square cannot already have a successor.",
-                    s1.connect(s4));
+                s1.connect(s4));
         checkSquare(s1, s1, null, s3, 0, 1);
         checkSquare(s4, s4, null, null, 4, 0);
 
@@ -217,7 +223,7 @@ public class ModelTests {
         checkSquare(s1, s1, null, s3, 2, 0);
 
         assertFalse("Non-sequential numbered squares are not connectable.",
-                    s5.connect(s1));
+                s5.connect(s1));
         checkSquare(s1, s1, null, s3, 2, 0);
         checkSquare(s5, s5, null, null, 8, 0);
 
@@ -297,15 +303,16 @@ public class ModelTests {
         checkSquare(s9, s9, null, null, 9, 0);
     }
 
-    /**@Test
-    public void arrowDirectionTest() {
-        Model model = new Model(tr(SOLN1));
-        assertEquals(8, model.arrowDirection(0, 0));
-        assertEquals(3, model.arrowDirection(0, 1));
-        assertEquals(3, model.arrowDirection(1, 1));
-        assertEquals(1, model.arrowDirection(1, 0));
-    assertEquals(0, model.arrowDirection(3, 0));
-    }*/
+    /**
+     * @Test public void arrowDirectionTest() {
+     * Model model = new Model(tr(SOLN1));
+     * assertEquals(8, model.arrowDirection(0, 0));
+     * assertEquals(3, model.arrowDirection(0, 1));
+     * assertEquals(3, model.arrowDirection(1, 1));
+     * assertEquals(1, model.arrowDirection(1, 0));
+     * assertEquals(0, model.arrowDirection(3, 0));
+     * }
+     */
 
     /* The following array data is written to look on the page like
      * the arrangement of data on the screen, with the first row
@@ -315,36 +322,66 @@ public class ModelTests {
      * top. */
 
     private static final int[][] SOLN1 = {
-        { 1, 13, 3, 2 },
-        { 12, 4, 8, 15 },
-        { 5, 9, 7, 14 },
-        { 11, 6, 10, 16 }
+            {1, 13, 3, 2},
+            {12, 4, 8, 15},
+            {5, 9, 7, 14},
+            {11, 6, 10, 16}
     };
 
     private static final int[][] ARROWS1 = {
-        { 2, 3, 5, 6 },
-        { 1, 5, 5, 4 },
-        { 3, 3, 8, 8 },
-        { 8, 1, 6, 0 }
+            {2, 3, 5, 6},
+            {1, 5, 5, 4},
+            {3, 3, 8, 8},
+            {8, 1, 6, 0}
     };
 
     private static final int[][] BOARD1 = {
-        { 1, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 16 } };
+            {1, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 16}};
 
     private static final int[][] SOLN2 = {
-        { 1, 2, 17, 16, 3 },
-        { 9, 7, 15, 6, 8 },
-        { 12, 11, 18, 5, 4 },
-        { 10, 13, 14, 19, 20 }
+            {1, 2, 17, 16, 3},
+            {9, 7, 15, 6, 8},
+            {12, 11, 18, 5, 4},
+            {10, 13, 14, 19, 20}
     };
 
     private static final int[][] BOARD2 = {
-        { 1, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 0 },
-        { 0, 0, 0, 0, 20} };
+            {1, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 20}};
+
+    /**@Test
+    public void integratedTest() {
+    Model model = new Model(tr(integratedBoard));
+    Sq s1 = model.new Sq(0, 0, 1, true, 1, 0);
+    Sq s2 = model.new Sq(1, 0, 0, false, 8, -1);
+    Sq s3 = model.new Sq(2, 0, 0, false, 8, -1);
+    Sq s4 = model.new Sq(3, 0, 0, false, 8, -1);
+
+    Sq s5 = model.new Sq(0, 1, 0, false, 2, -1);
+    Sq s6 = model.new Sq(1, 1, 0, false, 3, -1);
+    Sq s7 = model.new Sq(2, 1, 0, false, 5, -1);
+    Sq s8 = model.new Sq(3, 1, 0, false, 6, -1);
+
+    Sq s9 = model.new Sq(0, 2, 0, false, 2, -1);
+    Sq s10 = model.new Sq(1, 2, 0, false, 3, -1);
+    Sq s11 = model.new Sq(2, 2, 0, false, 6, -1);
+    Sq s12 = model.new Sq(3, 2, 0, false, 8, -1);
+
+    Sq s13 = model.new Sq(0, 3, 0, false, 4, -1);
+    Sq s14 = model.new Sq(1, 3, 0, false, 6, -1);
+    Sq s15 = model.new Sq(2, 3, 0, false, 3, -1);
+    Sq s16 = model.new Sq(3, 3, 16, true, 0, 0);
+
+}
+    private static final int[][] integratedBoard = {
+            { 1, 8, 13, 5},
+            { 11, 12, 7, 6},
+            { 3, 4, 2, 15},
+            { 10, 9, 14, 16} };*/
 
 }

@@ -147,8 +147,6 @@ class Model implements Iterable<Model.Sq> {
 
         for (int coordX = 0; coordX < _width; coordX += 1) {
             for (int coordY = 0; coordY < _height; coordY += 1) {
-                //PlaceList sucs = new PlaceList();
-                //PlaceList preds = new PlaceList();
                 for (int coordX2 = 0; coordX2 < _width; coordX2 += 1) {
                     for (int coordY2 = 0; coordY2 < _height; coordY2 += 1) {
                         if (get(coordX, coordY).connectable(_board[coordX2][coordY2])) {
@@ -157,18 +155,11 @@ class Model implements Iterable<Model.Sq> {
                         if (_board[coordX][coordY].connectable(get(coordX2, coordY2))) {
                             _board[coordX2][coordY2]._predecessors.add(pl(coordX, coordY));
                         }
-                        //_board[coordX][coordY]._successors = ;
-                        //_board[coordX2][coordY2]._predecessors = preds;
                     }
                 }
-            }}
-        //System.out.println(_allSquares.get(2)._predecessors);
-
-        /**for (Sq i : _allSquares) {
-            PlaceList sucs = new PlaceList(); PlaceList preds = new PlaceList();
-            i._successors = sucs;
-            i._predecessors = preds;
+            }
         }
+        /**
         System.out.println(_allSquares.get(1)._successors);*/
         _unconnected = last - 1;
     }
@@ -190,8 +181,7 @@ class Model implements Iterable<Model.Sq> {
         for (int coordX = 0; coordX < _width; coordX += 1) {
             for (int coordY = 0; coordY < _height; coordY += 1) {
                 Sq ogSq = originalBoard[coordX][coordY];
-                int ogNum = ogSq._sequenceNum;
-                Sq newSq = new Sq(ogSq.x, ogSq.y, ogNum, ogSq._hasFixedNum, ogSq._dir, ogSq._group);
+                Sq newSq = new Sq(ogSq);
                 _allSquares.add(newSq);
                 _board[coordX][coordY] = newSq;
             }
@@ -331,9 +321,9 @@ class Model implements Iterable<Model.Sq> {
         for (Sq i : _allSquares) {
             for (Sq j : _allSquares) {
                 if (i._sequenceNum == j._sequenceNum - 1) {
-                    if (i.connectable(j)) {
+                    //if (i.connectable(j)) {
                         i.connect(j);
-                    }
+                    //}
                 }
             }
         }
@@ -673,10 +663,7 @@ class Model implements Iterable<Model.Sq> {
                     currentSuc._sequenceNum = currentSucSeqNum;
                 }
                 sucNumbered = true;
-            }
-
-
-             else if (currentPreSeqNum != 0) {
+            } else if (currentPreSeqNum != 0) {
                 while (currentPred.predecessor() != null) {
                     currentPred = currentPred.predecessor();
                     currentPreSeqNum -= 1;
@@ -700,7 +687,8 @@ class Model implements Iterable<Model.Sq> {
                 releaseGroup(tgroup);
             }
             //sucNumbered == false && headNumbered == false
-            if (this.group() == -1 && s1.group() == -1) {
+            //this.group() == -1 && s1.group() == -1
+            if (this.sequenceNum() == 0 && s1.sequenceNum() == 0) {
                 this._head._group = joinGroups(sgroup, tgroup);
             }
 

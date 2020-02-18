@@ -196,23 +196,6 @@ class PuzzleGenerator implements PuzzleSource {
      *  already finds the other cases of numbered, unconnected cells. */
     static Sq findUniquePredecessor(Model model, Sq end) {
         // FIXME: Replace the following to satisfy the comment.
-        /**for (int coordX = 0; coordX < model.width(); coordX += 1) {
-            for (int coordY = 0; coordY < model.height(); coordY += 1) {
-                if (model.get(coordX, coordY).connectable(end)) {
-                    end.predecessors().add(pl(coordX, coordY));
-                }
-            }
-        }*/
-
-        /**PlaceList preds = end.predecessors();
-        if (preds != null) {
-            for (Place i : preds) {
-                if (model.get(i).connectable(end)) {
-                    return model.get(i);
-                }
-            }
-
-        }*/
         PlaceList preds = end.predecessors(); PlaceList numOfPreds = new PlaceList();
         if (preds == null) {
             return null;}
@@ -224,21 +207,12 @@ class PuzzleGenerator implements PuzzleSource {
                     numOfPreds.add(i);
                 }
             }
-            }
+        }
         if (numOfPreds.size() == 1) {
             return model.get(numOfPreds.get(0));
         }
-            //return model.get(preds.get(0));
-        //} else if (preds.size() > 1) {
-          //  for (Place placeOfSuc : preds) {
-            //    if (model.get(placeOfSuc).sequenceNum() != 0 && end.sequenceNum() != 0) {
-              //      if (model.get(placeOfSuc).sequenceNum() == end.sequenceNum() - 1) {
-                //        return model.get(placeOfSuc);
-                  //  }
-                //}
-            //}
         return  null;
-        }
+    }
 
 
 
