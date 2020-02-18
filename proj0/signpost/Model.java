@@ -626,11 +626,11 @@ class Model implements Iterable<Model.Sq> {
                     return false;
                 }*/
             //}
-            // just checking else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
-              //  if (this._head == s1._head) {
-                //    return false;
-            //    }
-            //}
+            if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
+                if (this._head == s1._head) {
+                    return false;
+                }
+            }
             return true;
         }
 
@@ -697,7 +697,7 @@ class Model implements Iterable<Model.Sq> {
                 releaseGroup(sgroup);
             }
             if (!headNumbered) {
-                releaseGroup(this.group());
+                releaseGroup(tgroup);
             }
             //sucNumbered == false && headNumbered == false
             if (this.group() == -1 && s1.group() == -1) {
