@@ -5,6 +5,7 @@ import java.util.Random;
 
 import signpost.Model.Sq;
 import static signpost.Place.PlaceList;
+import static signpost.Place.pl;
 import static signpost.Utils.*;
 
 /** A creator of random Signpost puzzles.
@@ -23,7 +24,7 @@ class PuzzleGenerator implements PuzzleSource {
         Model model =
             new Model(makePuzzleSolution(width, height, allowFreeEnds));
         // FIXME: Remove the "//" on the following two lines.
-        // makeSolutionUnique(model);
+        makeSolutionUnique(model);
         model.autoconnect();
         return model;
     }
@@ -54,15 +55,15 @@ class PuzzleGenerator implements PuzzleSource {
         _vals[x1][y1] = last;
         // FIXME: Remove the following return statement and uncomment the
         //        next three lines.
-        return new int[][] {
+        /**return new int[][] {
             { 14, 9, 8, 1 },
             { 15, 10, 7, 2 },
             { 13, 11, 6, 3 },
             { 16, 12, 5, 4 }
-        };
-        //boolean ok = findSolutionPathFrom(x0, y0);
-        //assert ok;
-        //return _vals;
+        };*/
+        boolean ok = findSolutionPathFrom(x0, y0);
+        assert ok;
+        return _vals;
     }
 
     /** Try to find a random path of queen moves through VALS from (X0, Y0)
@@ -133,8 +134,39 @@ class PuzzleGenerator implements PuzzleSource {
      *  direction from START, or (2) if START is numbered, a connectable
      *  numbered square in the proper direction from START (with the next
      *  number in sequence). */
+    // case for multiple sucs, case for if suc's seqnum is not sequential
+    //if multiple sucs, have to check seqnums
     static Sq findUniqueSuccessor(Model model, Sq start) {
         // FIXME: Fill in to satisfy the comment.
+        /**for (int coordX = 0; coordX < model.width(); coordX += 1) {
+            for (int coordY = 0; coordY < model.height(); coordY += 1) {
+                if (start.connectable(model.get(coordX, coordY)) && !start.successors().contains(pl(coordX, coordY))) {
+                    start.successors().add(pl(coordX, coordY));
+                        }
+                    }
+                }*/
+        PlaceList sucs = start.successors(); PlaceList numOfSucs = new PlaceList();
+        if (sucs == null) {
+            return null;
+        } else if (sucs.size() == 1) {
+            return model.get(sucs.get(0));
+        } else if (sucs.size() > 1) {
+            for (Place placeOfSuc : sucs) {
+                if (model.get(placeOfSuc).sequenceNum() != 0 && start.sequenceNum() != 0) {
+                    if (model.get(placeOfSuc).sequenceNum() == start.sequenceNum() + 1) {
+                        return model.get(placeOfSuc);
+                    }
+                }
+                else {
+                    if (start.connectable(model.get(placeOfSuc))) {
+                        numOfSucs.add(placeOfSuc);
+                    }
+                }
+            }
+        }
+        if (numOfSucs.size() == 1) {
+            return model.get(numOfSucs.get(0));
+        }
         return null;
     }
 
@@ -164,8 +196,51 @@ class PuzzleGenerator implements PuzzleSource {
      *  already finds the other cases of numbered, unconnected cells. */
     static Sq findUniquePredecessor(Model model, Sq end) {
         // FIXME: Replace the following to satisfy the comment.
-        return null;
-    }
+        /**for (int coordX = 0; coordX < model.width(); coordX += 1) {
+            for (int coordY = 0; coordY < model.height(); coordY += 1) {
+                if (model.get(coordX, coordY).connectable(end)) {
+                    end.predecessors().add(pl(coordX, coordY));
+                }
+            }
+        }*/
+
+        /**PlaceList preds = end.predecessors();
+        if (preds != null) {
+            for (Place i : preds) {
+                if (model.get(i).connectable(end)) {
+                    return model.get(i);
+                }
+            }
+
+        }*/
+        PlaceList preds = end.predecessors(); PlaceList numOfPreds = new PlaceList();
+        if (preds == null) {
+            return null;}
+
+
+        if (preds.size() >= 1) {
+            for (Place i : preds) {
+                if (model.get(i).connectable(end)) {
+                    numOfPreds.add(i);
+                }
+            }
+            }
+        if (numOfPreds.size() == 1) {
+            return model.get(numOfPreds.get(0));
+        }
+            //return model.get(preds.get(0));
+        //} else if (preds.size() > 1) {
+          //  for (Place placeOfSuc : preds) {
+            //    if (model.get(placeOfSuc).sequenceNum() != 0 && end.sequenceNum() != 0) {
+              //      if (model.get(placeOfSuc).sequenceNum() == end.sequenceNum() - 1) {
+                //        return model.get(placeOfSuc);
+                  //  }
+                //}
+            //}
+        return  null;
+        }
+
+
 
     /** Remove all links in MODEL and unfix numbers (other than the first and
      *  last) that do not affect solvability.  Not all such numbers are

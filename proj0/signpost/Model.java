@@ -139,19 +139,37 @@ class Model implements Iterable<Model.Sq> {
         //        in the direction of its arrow).
         //        Likewise, set its _predecessors list to the list of
         //        all cells that might connect to it.
-        PlaceList sucs = new PlaceList(); PlaceList preds = new PlaceList();
+        for (Sq i : _allSquares) {
+            PlaceList sucs = new PlaceList(); PlaceList preds = new PlaceList();
+            i._successors = sucs;
+            i._predecessors = preds;
+        }
+
         for (int coordX = 0; coordX < _width; coordX += 1) {
             for (int coordY = 0; coordY < _height; coordY += 1) {
-                if (get(coordX, coordY).connectable(_board[coordX][coordY])) {
-                    sucs.add(pl(coordX, coordY));
+                //PlaceList sucs = new PlaceList();
+                //PlaceList preds = new PlaceList();
+                for (int coordX2 = 0; coordX2 < _width; coordX2 += 1) {
+                    for (int coordY2 = 0; coordY2 < _height; coordY2 += 1) {
+                        if (get(coordX, coordY).connectable(_board[coordX2][coordY2])) {
+                            _board[coordX][coordY]._successors.add(pl(coordX2, coordY2));
+                        }
+                        if (_board[coordX][coordY].connectable(get(coordX2, coordY2))) {
+                            _board[coordX2][coordY2]._predecessors.add(pl(coordX, coordY));
+                        }
+                        //_board[coordX][coordY]._successors = ;
+                        //_board[coordX2][coordY2]._predecessors = preds;
+                    }
                 }
-                if (_board[coordX][coordY].connectable(get(coordX, coordY))) {
-                    preds.add(pl(coordX, coordY));
-                }
-                _board[coordX][coordY]._successors = sucs;
-                _board[coordX][coordY]._predecessors = preds;
-            }
+            }}
+        //System.out.println(_allSquares.get(2)._predecessors);
+
+        /**for (Sq i : _allSquares) {
+            PlaceList sucs = new PlaceList(); PlaceList preds = new PlaceList();
+            i._successors = sucs;
+            i._predecessors = preds;
         }
+        System.out.println(_allSquares.get(1)._successors);*/
         _unconnected = last - 1;
     }
 
@@ -189,9 +207,9 @@ class Model implements Iterable<Model.Sq> {
         //        MODEL.
         for (int copyX = 0; copyX < _width; copyX += 1) {
             for (int copyY = 0; copyY < _height; copyY += 1) {
-                _board[copyX][copyY]._successor = originalBoard[copyX][copyY]._successor;
-                _board[copyX][copyY]._predecessor = originalBoard[copyX][copyY]._predecessor;
-                _board[copyX][copyY]._head = originalBoard[copyX][copyY]._head;
+                _board[copyX][copyY]._successor = get(originalBoard[copyX][copyY]._successor);
+                _board[copyX][copyY]._predecessor = get(originalBoard[copyX][copyY]._predecessor);
+                _board[copyX][copyY]._head = get(originalBoard[copyX][copyY]._head);
             }
         }
     }
@@ -305,9 +323,18 @@ class Model implements Iterable<Model.Sq> {
     /** Sets the numbers in this board's squares to the solution from which
      *  this board was last initialized by the constructor. */
     void solve() {
-        for (int i = 0; i < _width; i += 1) {
-            for (int j = 0; j < _height; j += 1) {
-                _board[i][j]._sequenceNum = _solution[i][j];
+        for (int coordX = 0; coordX < _width; coordX += 1) {
+            for (int coordY = 0; coordY < _height; coordY += 1) {
+                _board[coordX][coordY]._sequenceNum = _solution[coordX][coordY];
+            }
+        }
+        for (Sq i : _allSquares) {
+            for (Sq j : _allSquares) {
+                if (i._sequenceNum == j._sequenceNum - 1) {
+                    if (i.connectable(j)) {
+                        i.connect(j);
+                    }
+                }
             }
         }
         _unconnected = 0;
@@ -594,11 +621,16 @@ class Model implements Iterable<Model.Sq> {
                 if (s1.sequenceNum() - 1 != this.sequenceNum()) {
                     return false;
                 }
-            } else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
+            } /*else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
                 if (s1.group() == this.group() && s1.group() != -1) {
                     return false;
-                }
-            }
+                }*/
+            //}
+            // just checking else if (s1.sequenceNum() == 0 && this.sequenceNum() == 0) {
+              //  if (this._head == s1._head) {
+                //    return false;
+            //    }
+            //}
             return true;
         }
 
@@ -630,7 +662,9 @@ class Model implements Iterable<Model.Sq> {
             //          the two groups.
             boolean headNumbered = false; boolean sucNumbered = false;
             this._successor = s1; s1._predecessor = this;
+            this._successor._head = this._head;
             Sq currentSuc = this; int currentSucSeqNum = this.sequenceNum();
+            Sq currentPred = s1; int currentPreSeqNum = s1._sequenceNum;
 
             if (currentSucSeqNum != 0) {
                 while (currentSuc.successor() != null) {
@@ -641,31 +675,33 @@ class Model implements Iterable<Model.Sq> {
                 sucNumbered = true;
             }
 
-            Sq currentPred = s1; int currentPreSeqNum = s1._sequenceNum;
-            if (s1._sequenceNum != 0) {
+
+             else if (currentPreSeqNum != 0) {
                 while (currentPred.predecessor() != null) {
                     currentPred = currentPred.predecessor();
                     currentPreSeqNum -= 1;
                     currentPred._sequenceNum = currentPreSeqNum;
+
                 }
                 headNumbered = true;
             }
 
+            int tgroup = this.group();
             Sq thisCopy = this;
-            while (thisCopy.successor() != null) {
-                thisCopy._successor._head = thisCopy._head;
-                thisCopy = thisCopy.successor();
+            while (thisCopy != null) {
+                thisCopy._head = _head;
+                thisCopy = thisCopy._successor;
             }
 
             if (!sucNumbered) {
-                releaseGroup(s1.group());
+                releaseGroup(sgroup);
             }
             if (!headNumbered) {
                 releaseGroup(this.group());
             }
             //sucNumbered == false && headNumbered == false
             if (this.group() == -1 && s1.group() == -1) {
-                this._head._group = joinGroups(this.group(), s1.group());
+                this._head._group = joinGroups(sgroup, tgroup);
             }
 
             return true;
