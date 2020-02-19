@@ -353,35 +353,4 @@ public class ModelTests {
             {0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0},
             {0, 0, 0, 0, 20}};
-
-    /**@Test
-    public void integratedTest() {
-    Model model = new Model(tr(integratedBoard));
-    Sq s1 = model.new Sq(0, 0, 1, true, 1, 0);
-    Sq s2 = model.new Sq(1, 0, 0, false, 8, -1);
-    Sq s3 = model.new Sq(2, 0, 0, false, 8, -1);
-    Sq s4 = model.new Sq(3, 0, 0, false, 8, -1);
-
-    Sq s5 = model.new Sq(0, 1, 0, false, 2, -1);
-    Sq s6 = model.new Sq(1, 1, 0, false, 3, -1);
-    Sq s7 = model.new Sq(2, 1, 0, false, 5, -1);
-    Sq s8 = model.new Sq(3, 1, 0, false, 6, -1);
-
-    Sq s9 = model.new Sq(0, 2, 0, false, 2, -1);
-    Sq s10 = model.new Sq(1, 2, 0, false, 3, -1);
-    Sq s11 = model.new Sq(2, 2, 0, false, 6, -1);
-    Sq s12 = model.new Sq(3, 2, 0, false, 8, -1);
-
-    Sq s13 = model.new Sq(0, 3, 0, false, 4, -1);
-    Sq s14 = model.new Sq(1, 3, 0, false, 6, -1);
-    Sq s15 = model.new Sq(2, 3, 0, false, 3, -1);
-    Sq s16 = model.new Sq(3, 3, 16, true, 0, 0);
-
-}
-    private static final int[][] integratedBoard = {
-            { 1, 8, 13, 5},
-            { 11, 12, 7, 6},
-            { 3, 4, 2, 15},
-            { 10, 9, 14, 16} };*/
-
 }

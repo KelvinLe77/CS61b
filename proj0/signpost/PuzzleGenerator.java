@@ -138,13 +138,6 @@ class PuzzleGenerator implements PuzzleSource {
     //if multiple sucs, have to check seqnums
     static Sq findUniqueSuccessor(Model model, Sq start) {
         // FIXME: Fill in to satisfy the comment.
-        /**for (int coordX = 0; coordX < model.width(); coordX += 1) {
-            for (int coordY = 0; coordY < model.height(); coordY += 1) {
-                if (start.connectable(model.get(coordX, coordY)) && !start.successors().contains(pl(coordX, coordY))) {
-                    start.successors().add(pl(coordX, coordY));
-                        }
-                    }
-                }*/
         PlaceList sucs = start.successors(); PlaceList numOfSucs = new PlaceList();
         if (sucs == null) {
             return null;
@@ -156,8 +149,7 @@ class PuzzleGenerator implements PuzzleSource {
                     if (model.get(placeOfSuc).sequenceNum() == start.sequenceNum() + 1) {
                         return model.get(placeOfSuc);
                     }
-                }
-                else {
+                } else {
                     if (start.connectable(model.get(placeOfSuc))) {
                         numOfSucs.add(placeOfSuc);
                     }
@@ -198,9 +190,8 @@ class PuzzleGenerator implements PuzzleSource {
         // FIXME: Replace the following to satisfy the comment.
         PlaceList preds = end.predecessors(); PlaceList numOfPreds = new PlaceList();
         if (preds == null) {
-            return null;}
-
-
+            return null;
+        }
         if (preds.size() >= 1) {
             for (Place i : preds) {
                 if (model.get(i).connectable(end)) {

@@ -299,11 +299,13 @@ class Model implements Iterable<Model.Sq> {
     boolean autoconnect() {
         boolean changed = false;
         for (Sq base : _allSquares) {
-            for (int j = 0; j < _allSquares.size(); j += 1) {
-                Sq connectTo = _allSquares.get(j);
-                if (base.connectable(connectTo)) {
-                    changed = true;
-                    base.connect(connectTo);
+            if (base.sequenceNum() != 0) {
+                for (int j = 0; j < _allSquares.size(); j += 1) {
+                    Sq connectTo = _allSquares.get(j);
+                    if (base.connectable(connectTo) && base.sequenceNum() + 1 == connectTo.sequenceNum()) {
+                        changed = true;
+                        base.connect(connectTo);
+                    }
                 }
             }
         }
@@ -321,9 +323,9 @@ class Model implements Iterable<Model.Sq> {
         for (Sq i : _allSquares) {
             for (Sq j : _allSquares) {
                 if (i._sequenceNum == j._sequenceNum - 1) {
-                    //if (i.connectable(j)) {
+                    if (i.connectable(j)) {
                         i.connect(j);
-                    //}
+                    }
                 }
             }
         }
