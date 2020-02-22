@@ -3,7 +3,7 @@ class WeirdListClient {
 
     /** Return the result of adding N to each element of L. */
     static WeirdList add(WeirdList L, int n) {
-        return null; // TODO: REPLACE THIS LINE
+        return L.map((int x) -> x + n) ; // TODO: REPLACE THIS LINE
     }
 
     /** Return the sum of all the elements in L. */
