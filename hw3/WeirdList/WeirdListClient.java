@@ -8,7 +8,9 @@ class WeirdListClient {
 
     /** Return the sum of all the elements in L. */
     static int sum(WeirdList L) {
-        return 0; // TODO: REPLACE THIS LINE
+        summing sum = new summing(0);
+        L.map(sum);
+        return sum.result();
     }
 
     /* IMPORTANT: YOU ARE NOT ALLOWED TO USE RECURSION IN ADD AND SUM
