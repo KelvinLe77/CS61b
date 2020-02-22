@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.StringReader;
 
 /** String translation.
  *  @author your name here
@@ -10,9 +11,12 @@ public class Translate {
      *  NOTE: You must use your TrReader to achieve this. */
     static String translate(String S, String from, String to) {
         /* NOTE: The try {...} catch is a technicality to keep Java happy. */
-        char[] buffer = new char[S.length()];
         try {
-            throw new IOException(); //TODO: REPLACE THIS LINE WITH YOUR CODE.
+            StringReader read = new StringReader(S);
+            TrReader trRead = new TrReader(read, from, to);
+            char[] toRead = S.toCharArray();
+            trRead.read(toRead);
+            return new String(toRead);
         } catch (IOException e) {
             return null;
         }
