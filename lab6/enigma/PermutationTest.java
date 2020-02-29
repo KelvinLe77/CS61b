@@ -144,10 +144,10 @@ public abstract class PermutationTest {
     @Test
     public void testInvertInt() {
         Permutation p = getNewPermutation("(BACD)", getNewAlphabet("ABCDEFG"));
-        assertEquals('G', p.invert('A'));
-        assertEquals('A', p.invert('B'));
-        assertEquals('C', p.invert('D'));
-        assertEquals('G', p.invert('G'));
+        assertEquals(6, p.invert(0));
+        assertEquals(0, p.invert(1));
+        assertEquals(2, p.invert(3));
+        assertEquals(6, p.invert(6));
     }
 
     @Test
@@ -170,7 +170,7 @@ public abstract class PermutationTest {
         Alphabet newA = getNewAlphabet();
         Alphabet newA2 = getNewAlphabet("ABCD");
         Permutation p = getNewPermutation("ABCDEFGHIJKLMNOPQRSTUVWXYZ", newA);
-        Permutation p2 = getNewPermutation("ABCDEFGHIJKLMNOPQRSTUVWXYZ", newA2);
+        Permutation p2 = getNewPermutation("ABCD", newA2);
         assertEquals(p.alphabet(), newA);
         assertEquals(p2.alphabet(), newA2);
     }
