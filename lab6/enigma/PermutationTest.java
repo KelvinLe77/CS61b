@@ -166,7 +166,7 @@ public abstract class PermutationTest {
         assertFalse(p3.derangement());
     }
 
-    @Test void testAlphabet() {
+    @Test public void testAlphabet() {
         Alphabet newA = getNewAlphabet();
         Alphabet newA2 = getNewAlphabet("ABCD");
         Permutation p = getNewPermutation("ABCDEFGHIJKLMNOPQRSTUVWXYZ", newA);
