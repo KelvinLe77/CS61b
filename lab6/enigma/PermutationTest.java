@@ -134,7 +134,7 @@ public abstract class PermutationTest {
         assertEquals(3, p.permute(2 % p.alphabet().size()));
         assertEquals(0, p.permute(3 % p.alphabet().size()));
         assertEquals(5, p.permute(5 % p.alphabet().size()));
-        assertEquals(2, p.permute(27 % p.alphabet().size()));
+        assertEquals(2, p.permute(8 % p.alphabet().size()));
 
     }
 
