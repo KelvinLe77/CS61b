@@ -168,9 +168,11 @@ public abstract class PermutationTest {
         Permutation p = getNewPermutation("(ABCDEFGHIJKLMNOPQRSTUVWXYZ)", getNewAlphabet());
         Permutation p2 = getNewPermutation("(ABCDEFGHIJKLMNOPQRSTUVWXY)", getNewAlphabet());
         Permutation p3 = getNewPermutation("", getNewAlphabet());
+        Permutation p4 = getNewPermutation("(A)(BC)", getNewAlphabet("ABC"));
         assertTrue(p.derangement());
         assertFalse(p2.derangement());
         assertFalse(p3.derangement());
+        assertFalse(p4.derangement());
     }
 
     @Test
