@@ -169,12 +169,21 @@ public abstract class PermutationTest {
         assertFalse(p3.derangement());
     }
 
-    @Test public void testAlphabet() {
+    @Test
+    public void testAlphabet() {
         Alphabet newA = getNewAlphabet();
         Alphabet newA2 = getNewAlphabet("(ABCD)");
         Permutation p = getNewPermutation("(ABCDEFGHIJKLMNOPQRSTUVWXYZ)", newA);
         Permutation p2 = getNewPermutation("(ABCD)", newA2);
         assertEquals(p.alphabet(), newA);
         assertEquals(p2.alphabet(), newA2);
+    }
+
+    @Test
+    public void testSize() {
+        Permutation p = getNewPermutation("", getNewAlphabet("ABCD"));
+        Permutation p2 = getNewPermutation("", getNewAlphabet());
+        assertEquals(4, p.size());
+        assertEquals(26, p2.size());
     }
 }
