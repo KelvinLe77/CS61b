@@ -160,7 +160,7 @@ public abstract class PermutationTest {
     @Test
     public void testInvertInt2() {
         Permutation p = getNewPermutation("", getNewAlphabet("ABCDEFG"));
-        assertEquals('G', p.invert('G'));
+        assertEquals(1, p.invert(1));
     }
 
     @Test
