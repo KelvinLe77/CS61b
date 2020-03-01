@@ -134,6 +134,8 @@ public abstract class PermutationTest {
         assertEquals(0, p.permute(3));
         assertEquals(5, p.permute(5));
         assertEquals(2, p.permute(8));
+        assertEquals(5, p.permute(-1));
+        assertEquals(3, p.permute(-5));
 
     }
 
