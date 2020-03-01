@@ -129,12 +129,11 @@ public abstract class PermutationTest {
 
     @Test
     public void testPermuteInt() {
-
         Permutation p = getNewPermutation("(ABCD)", getNewAlphabet("ABCDEFG"));
-        assertEquals(3, p.permute(2 % p.alphabet().size()));
-        assertEquals(0, p.permute(3 % p.alphabet().size()));
-        assertEquals(5, p.permute(5 % p.alphabet().size()));
-        assertEquals(2, p.permute(8 % p.alphabet().size()));
+        assertEquals(3, p.permute(2 ));
+        assertEquals(0, p.permute(3));
+        assertEquals(5, p.permute(5));
+        assertEquals(2, p.permute(8));
 
     }
 
