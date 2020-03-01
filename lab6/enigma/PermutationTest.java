@@ -144,8 +144,8 @@ public abstract class PermutationTest {
     @Test
     public void testInvertInt() {
         Permutation p = getNewPermutation("(BACD)", getNewAlphabet("ABCDEFG"));
-        assertEquals(6, p.invert(0));
-        assertEquals(0, p.invert(1));
+        assertEquals(1, p.invert(0));
+        assertEquals(3, p.invert(1));
         assertEquals(2, p.invert(3));
         assertEquals(6, p.invert(6));
     }
