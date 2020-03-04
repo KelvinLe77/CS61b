@@ -1,5 +1,9 @@
 package enigma;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import static enigma.EnigmaException.*;
 
 /** Represents a permutation of a range of integers starting at 0 corresponding
@@ -13,9 +17,72 @@ class Permutation {
      *  is interpreted as a permutation in cycle notation.  Characters in the
      *  alphabet that are not included in any cycle map to themselves.
      *  Whitespace is ignored. */
+
+    /** same num of ( as ) (this is probably taken care of by the two below this)
+     * cant have ( and ) in wrong order (i.e. ")abc(" ) 3rd
+     * cant have letters not between () 4th
+     * characters in cycles have to be unique 2nd
+     * characters in cycles have to be present in alphabet 1st
+     * empty cycles 1st 1st*/
+
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
+        ArrayList<String> _cycles = new ArrayList<>();
+        /** make hashset to bind characters together*/
+        /** make _cycles a Character[] (wrapper) so it is easier to compare chars*/
+        _perms = new HashMap<>();
         // FIXME
+        if (cycles.equals("")) {
+            //map everything to itself
+        }
+        /** checks for well formed cycles and puts cycles into list
+         * havent decided what kind of list
+         * char[]? Character[]? String[]?*/
+        while (!cycles.isEmpty()) {
+            int openParen = cycles.indexOf("(");
+            int closeParen = cycles.indexOf(")");
+            if (openParen == -1 && closeParen == -1) {
+                throw new EnigmaException("Malformed cycles, cycles does not contain cycle or " +
+                        "there are characters outside of a cycle i.e. (abc)de");
+            }
+            if (openParen == closeParen + 1) {
+                throw new EnigmaException("Malformed cycles, cycle contains no characters i.e. ()");
+            }
+            if (openParen == -1 || closeParen == -1) {
+                throw new EnigmaException("Malformed cycles, uneven number of ( or )");
+            }
+            if (openParen > closeParen) {
+                throw new EnigmaException("Malformed cycles, ( is after ) i.e. )abc(");
+            }
+            String aCycle = cycles.substring(openParen + 1, closeParen);
+            _cycles.add(aCycle);
+            if (cycles.length() == closeParen + 1) {
+                cycles = "";
+            } else {
+                cycles = cycles.substring(closeParen + 1);
+            }
+        }
+
+        /** check contents of cycles if they contain what theyre supposed to contain i.e. of malformed ((abc) and (a   bc)
+         * also maps permutations uwuwuwuwuwuwuuwuwu*/
+        for (int arrIndex = 0; arrIndex < _cycles.size(); arrIndex += 1) {
+            String aCycle = _cycles.get(arrIndex);
+            for (int cycleInd = 0; cycleInd < aCycle.length(); cycleInd += 1) {
+                if (!_alphabet.contains(aCycle.charAt(cycleInd))) {
+                    throw new EnigmaException("Malformed cycles, contains character not in alphabet");
+                } else {
+                    if (_cycles.get(arrIndex).length() == 1) {
+                        _perms.put(aCycle.charAt(0), aCycle.charAt(0));
+                    } else {
+                        if(cycleInd == aCycle.length() - 1) {
+                            _perms.put(aCycle.charAt(cycleInd), aCycle.charAt(0));
+                        } else {
+                            _perms.put(aCycle.charAt(cycleInd), aCycle.charAt(cycleInd + 1));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /** Add the cycle c0->c1->...->cm->c0 to the permutation, where CYCLE is
@@ -35,31 +102,41 @@ class Permutation {
 
     /** Returns the size of the alphabet I permute. */
     int size() {
-        return 0; // FIXME
+        return _alphabet.size(); // FIXME
     }
 
     /** Return the result of applying this permutation to P modulo the
      *  alphabet size. */
     int permute(int p) {
-        return 0;  // FIXME
+        return _alphabet.toInt(permute(_alphabet.toChar(p)));  // FIXME
     }
 
     /** Return the result of applying the inverse of this permutation
      *  to  C modulo the alphabet size. */
     int invert(int c) {
-        return 0;  // FIXME
+        /** uwu */
+        return _alphabet.toInt(invert((_alphabet.toChar(c)
+        )));  // FIXME
     }
 
     /** Return the result of applying this permutation to the index of P
      *  in ALPHABET, and converting the result to a character of ALPHABET. */
     char permute(char p) {
-        return 0;  // FIXME
+        if (!_perms.containsKey(p)) {
+            return p;
+        }
+        return _perms.get(p);  // FIXME
     }
 
     /** Return the result of applying the inverse of this permutation to C. */
     char invert(char c) {
-        return 0;  // FIXME
-    }
+        for (HashMap.Entry<Character, Character> aPerm : _perms.entrySet()) {
+            if (aPerm.getValue().equals(c)) {
+                return aPerm.getKey();
+            }
+        }
+        return c;
+    } // FIXME
 
     /** Return the alphabet used to initialize this Permutation. */
     Alphabet alphabet() {
@@ -69,6 +146,14 @@ class Permutation {
     /** Return true iff this permutation is a derangement (i.e., a
      *  permutation for which no value maps to itself). */
     boolean derangement() {
+        for (int i = 0; i < _alphabet.size(); i += 1) {
+            if (_perms.get(_alphabet.toChar(i)) == _alphabet.toChar(i)) {
+                return false;
+            }
+        }
+        if (_perms.size() != _alphabet.size()) {
+            return false;
+        }
         return true;  // FIXME
     }
 
@@ -76,4 +161,7 @@ class Permutation {
     private Alphabet _alphabet;
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+
+    /** Contains forward and inverse mappings of characters. */
+    private HashMap<Character, Character> _perms;
 }
