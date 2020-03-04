@@ -23,4 +23,13 @@ class Reflector extends FixedRotor {
         }
     }
 
+    @Override
+    boolean reflecting() {
+        return true;
+    }
+
+    @Override
+    int convertBackward(int e) {
+        throw error("Can't convert backward, this is the leftmost rotor");
+    }
 }
