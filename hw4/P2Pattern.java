@@ -7,7 +7,7 @@ public class P2Pattern {
     public static String P1 = "^[0-1]?\\d/[0-3]?[0-9]/[1-9]\\d\\d\\d$"; //FIXME: Add your regex here
 
     /** Pattern to match 61b notation for literal IntLists. */
-    public static String P2 = ""; //FIXME: Add your regex here
+    public static String P2 = "\\(((0|[1-9]\\d*),(\\s*))*(0|[1-9]\\d*)\\)"; //FIXME: Add your regex here
 
     /* Pattern to match a valid domain name. Eg: www.support.facebook-login.com */
     public static String P3 = ""; //FIXME: Add your regex here
