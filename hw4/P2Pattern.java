@@ -4,7 +4,7 @@
 
 public class P2Pattern {
     /* Pattern to match a valid date of the form MM/DD/YYYY. Eg: 9/22/2019 */
-    public static String P1 = ""; //FIXME: Add your regex here
+    public static String P1 = "^[0-1]?\\d/[0-3]?[0-9]/[1-9]\\d\\d\\d$"; //FIXME: Add your regex here
 
     /** Pattern to match 61b notation for literal IntLists. */
     public static String P2 = ""; //FIXME: Add your regex here

@@ -173,7 +173,7 @@ public abstract class PermutationTest {
         assertFalse(p2.derangement());
         assertFalse(p3.derangement());
         assertFalse(p4.derangement());
-        
+
     }
 
     @Test
