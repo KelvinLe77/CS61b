@@ -27,20 +27,21 @@ class Permutation {
 
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
-        ArrayList<String> _cycles = new ArrayList<>();
+        _listCycles = new ArrayList<>();
         /** make hashset to bind characters together*/
         /** make _cycles a Character[] (wrapper) so it is easier to compare chars*/
         _perms = new HashMap<>();
+        _cycles = cycles;
         // FIXME
-        if (cycles.equals("")) {
+        if (_cycles.equals("")) {
             //map everything to itself
         }
         /** checks for well formed cycles and puts cycles into list
          * havent decided what kind of list
          * char[]? Character[]? String[]?*/
-        while (!cycles.isEmpty()) {
-            int openParen = cycles.indexOf("(");
-            int closeParen = cycles.indexOf(")");
+        while (!_cycles.isEmpty()) {
+            int openParen = _cycles.indexOf("(");
+            int closeParen = _cycles.indexOf(")");
             if (openParen == -1 && closeParen == -1) {
                 throw new EnigmaException("Malformed cycles, cycles does not contain cycle or " +
                         "there are characters outside of a cycle i.e. (abc)de");
@@ -54,24 +55,24 @@ class Permutation {
             if (openParen > closeParen) {
                 throw new EnigmaException("Malformed cycles, ( is after ) i.e. )abc(");
             }
-            String aCycle = cycles.substring(openParen + 1, closeParen);
-            _cycles.add(aCycle);
-            if (cycles.length() == closeParen + 1) {
-                cycles = "";
+            String aCycle = _cycles.substring(openParen + 1, closeParen);
+            _listCycles.add(aCycle);
+            if (_cycles.length() == closeParen + 1) {
+                _cycles = "";
             } else {
-                cycles = cycles.substring(closeParen + 1);
+                _cycles = _cycles.substring(closeParen + 1);
             }
         }
 
         /** check contents of cycles if they contain what theyre supposed to contain i.e. of malformed ((abc) and (a   bc)
          * also maps permutations uwuwuwuwuwuwuuwuwu*/
-        for (int arrIndex = 0; arrIndex < _cycles.size(); arrIndex += 1) {
-            String aCycle = _cycles.get(arrIndex);
+        for (int arrIndex = 0; arrIndex < _listCycles.size(); arrIndex += 1) {
+            String aCycle = _listCycles.get(arrIndex);
             for (int cycleInd = 0; cycleInd < aCycle.length(); cycleInd += 1) {
                 if (!_alphabet.contains(aCycle.charAt(cycleInd))) {
                     throw new EnigmaException("Malformed cycles, contains character not in alphabet");
                 } else {
-                    if (_cycles.get(arrIndex).length() == 1) {
+                    if (_listCycles.get(arrIndex).length() == 1) {
                         _perms.put(aCycle.charAt(0), aCycle.charAt(0));
                     } else {
                         if(cycleInd == aCycle.length() - 1) {
@@ -108,14 +109,14 @@ class Permutation {
     /** Return the result of applying this permutation to P modulo the
      *  alphabet size. */
     int permute(int p) {
-        return _alphabet.toInt(permute(_alphabet.toChar(p)));  // FIXME
+        return _alphabet.toInt(permute(_alphabet.toChar(wrap(p))));  // FIXME
     }
 
     /** Return the result of applying the inverse of this permutation
      *  to  C modulo the alphabet size. */
     int invert(int c) {
         /** uwu */
-        return _alphabet.toInt(invert((_alphabet.toChar(c)
+        return _alphabet.toInt(invert((_alphabet.toChar(wrap(c))
         )));  // FIXME
     }
 
@@ -146,13 +147,13 @@ class Permutation {
     /** Return true iff this permutation is a derangement (i.e., a
      *  permutation for which no value maps to itself). */
     boolean derangement() {
+        if (_perms.size() != _alphabet.size()) {
+            return false;
+        }
         for (int i = 0; i < _alphabet.size(); i += 1) {
             if (_perms.get(_alphabet.toChar(i)) == _alphabet.toChar(i)) {
                 return false;
             }
-        }
-        if (_perms.size() != _alphabet.size()) {
-            return false;
         }
         return true;  // FIXME
     }
@@ -164,4 +165,6 @@ class Permutation {
 
     /** Contains forward and inverse mappings of characters. */
     private HashMap<Character, Character> _perms;
+    private ArrayList<String> _listCycles;
+    private String _cycles;
 }
