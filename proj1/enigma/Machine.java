@@ -39,8 +39,8 @@ class Machine {
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
         // FIXME
-        for (Rotor aRotor: _allRotors) {
-            for (int i = 0; i < rotors.length; i += 0) {
+        for (int i = 0; i < rotors.length; i += 1) {
+            for (Rotor aRotor: _allRotors) {
                 if (aRotor.name().equals(rotors[i])) {
                     _usedRotors[i] = aRotor;
                 }
@@ -77,8 +77,8 @@ class Machine {
         if (setting.length() != numRotors() - 1) {
             throw new EnigmaException("Setting length does not match number of rotors minus reflector");
         } else {
-            for (int i = 0; i < setting.length(); i += 1) {
-                _usedRotors[i + 1].set(setting.charAt(i));
+            for (int i = 1; i < _usedRotors.length; i += 1) {
+                _usedRotors[i].set(setting.charAt(i - 1));
             }
         }
     }
@@ -94,13 +94,71 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        return 0; // FIXME
+        // FIXME
+//        for (int i = _usedRotors.length - 1; i < 1; i -= 1) {
+//            if (i == _usedRotors.length - 1) {
+//                _usedRotors[i].advance();
+//            }
+//            if (i < _usedRotors.length - 2 && _usedRotors[i].rotates()) {
+//                if (_usedRotors[i + 1].atNotch() && i + 1 == _usedRotors.length - 1) {
+//                    _usedRotors[i].advance();
+//                }
+//                if (_usedRotors[i + 1].atNotch()) {
+//                    _usedRotors[i].advance();
+//                    _usedRotors[i + 1].advance();
+//                }
+//            }
+//        }
+//        int map = _plugboard.permute(c);
+//        for (int i = _usedRotors.length - 1; i >= 0; i -= 1) {
+//            map = _usedRotors[i].convertForward(map);
+//        }
+//        for (int j = 1; j < _usedRotors.length - 1; j += 1) {
+//            map = _usedRotors[j].convertBackward(map);
+//        }
+//        map = _plugboard.permute(map);
+//        return map;
+
+        if (_usedRotors[_usedRotors.length - 1].atNotch()) {
+            if (_usedRotors[_usedRotors.length - 1].rotates() &&
+                    _usedRotors[_usedRotors.length - 2].rotates()) {
+                _usedRotors[_usedRotors.length - 2].advance();
+            }
+        }
+        if (_usedRotors[_usedRotors.length - 2].atNotch()) {
+            if (_usedRotors[_usedRotors.length - 3].rotates() &&
+                    _usedRotors[_usedRotors.length - 2].rotates()) {
+                _usedRotors[_usedRotors.length - 3].advance();
+                _usedRotors[_usedRotors.length - 2].advance();
+            }
+        }
+        _usedRotors[_numRotors - 1].advance();
+
+        int map = _plugboard.permute(c);
+        for (int i = _numRotors - 1; i >= 0; i -= 1) {
+            map = _usedRotors[i].convertForward(map);
+        }
+        for (int i = 1; i < _numRotors; i += 1) {
+            map = _usedRotors[i].convertBackward(map);
+        }
+        return _plugboard.invert(map);
     }
 
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
-        return ""; // FIXME
+        // FIXME
+        String code = "";
+        char[] cMsg = msg.toCharArray();
+        for (int i = 0; i < cMsg.length; i += 1) {
+            if (cMsg[i] == (' ')) {
+                code += i;
+            }
+            else {
+                code += _alphabet.toChar(convert(_alphabet.toInt(cMsg[i])));
+            }
+        }
+        return code;
     }
 
     /** Common alphabet of my rotors. */

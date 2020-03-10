@@ -16,25 +16,39 @@ class MovingRotor extends Rotor {
         super(name, perm);
         // FIXME
         _notches = notches;
-        _permutation = perm;
     }
 
     // FIXME?
 
-    @Override
-    void advance() {
-        // FIXME
-        super.set(_permutation.wrap(super.setting() + 1));
-    }
+//    @Override
+//    void advance() {
+//        // FIXME
+//        super.set(_permutation.wrap(super.setting() + 1));
+//    }
+//
+//    @Override
+//    boolean atNotch() {
+//        for (int i = 0; i < _notches.length(); i += 1) {
+//            if (alphabet().toChar(super.setting()) == _notches.charAt(i)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     @Override
     boolean atNotch() {
-        for (int i = 0; i < _notches.length(); i += 1) {
-            if (alphabet().toChar(super.setting()) == _notches.charAt(i)) {
+        for (int i = 0; i < _notches.length(); i++) {
+            if (alphabet().toInt(_notches.charAt(i)) == this.setting()) {
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    void advance() {
+        this.set(this.setting() + 1);
     }
 
     @Override
@@ -45,5 +59,4 @@ class MovingRotor extends Rotor {
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
     private String _notches;
-    private Permutation _permutation;
 }

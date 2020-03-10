@@ -14,19 +14,20 @@ class Alphabet {
      *  K (numbering from 0). No character may be duplicated. */
     Alphabet(String chars) {
         // FIXME
-        HashSet<Character> charSet = new HashSet<>();
-        int charsLen = chars.length();
-        validAlpha = new Character[charsLen];
-        for (int i = 0; i < charsLen; i += 1) {
-            charSet.add(chars.charAt(i));
-        }
-        if (charSet.size() != charsLen) {
-            throw new EnigmaException("Alphabet contains duplicate characters");
-        } else {
-            for (int i = 0; i < charsLen; i += 1) {
-                validAlpha[i] = chars.charAt(i);
-            }
-        }
+//        HashSet<Character> charSet = new HashSet<>();
+//        int charsLen = chars.length();
+//        validAlpha = new Character[charsLen];
+//        for (int i = 0; i < charsLen; i += 1) {
+//            charSet.add(chars.charAt(i));
+//        }
+//        if (charSet.size() != charsLen) {
+//            throw new EnigmaException("Alphabet contains duplicate characters");
+//        } else {
+//            for (int i = 0; i < charsLen; i += 1) {
+//                validAlpha[i] = chars.charAt(i);
+//            }
+//        }
+        _alphabet = chars;
     }
 
     /** A default alphabet of all upper-case characters. */
@@ -36,12 +37,12 @@ class Alphabet {
 
     /** Returns the size of the alphabet. */
     int size() {
-        return validAlpha.length; // FIXME
+        return _alphabet.length(); // FIXME
     }
 
     /** Returns true if CH is in this alphabet. */
     boolean contains(char ch) {
-        for (Character character : validAlpha) {
+        for (Character character : _alphabet.toCharArray()) {
             if (character.equals(ch)) {
                 return true;
             }
@@ -52,17 +53,17 @@ class Alphabet {
     /** Returns character number INDEX in the alphabet, where
      *  0 <= INDEX < size(). */
     char toChar(int index) {
-        if (index < 0 || index >= validAlpha.length) {
+        if (index < 0 || index >= size()) {
             throw new EnigmaException("invalid index");
         }
-        return validAlpha[index]; // FIXME
+        return _alphabet.charAt(index); // FIXME
     }
 
     /** Returns the index of character CH which must be in
      *  the alphabet. This is the inverse of toChar(). */
     int toInt(char ch) {
-        for (int i = 0; i < validAlpha.length; i += 1) {
-            if (validAlpha[i].equals(ch)) {
+        for (int i = 0; i < size(); i += 1) {
+            if (_alphabet.charAt(i) == ch) {
                 return i;
             }
         }
@@ -74,6 +75,7 @@ class Alphabet {
      * A list of characters in alphabet.
      */
     private Character[] validAlpha;
+    private String _alphabet;
 }
 
 

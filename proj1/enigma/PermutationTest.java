@@ -54,11 +54,13 @@ public class PermutationTest {
     }
 
     /* ***** TESTS ***** */
-
     @Test
-    public void checkIdTransform() {
-        perm = new Permutation("", UPPER);
-        checkPerm("identity", UPPER_STRING, UPPER_STRING);
+    public void checkingInvertChar() {
+        perm = new Permutation("(ABCD) (EFG)", UPPER);
+        assertEquals('G', perm.invert('E'));
+        assertEquals('E', perm.invert('F'));
+        assertEquals('A', perm.invert('B'));
+        assertEquals('D', perm.invert('A'));
     }
 
     @Test
@@ -170,5 +172,4 @@ public class PermutationTest {
         assertEquals(4, p.size());
         assertEquals(26, p2.size());
     }
-
 }

@@ -12,4 +12,14 @@ class FixedRotor extends Rotor {
     FixedRotor(String name, Permutation perm) {
         super(name, perm);
     }
+
+    @Override
+    boolean rotates() {
+        return false;
+    }
+
+    @Override
+    boolean reflecting() {
+        return false;
+    }
 }

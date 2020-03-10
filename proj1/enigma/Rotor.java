@@ -60,7 +60,7 @@ class Rotor {
     /** Set setting() to character CPOSN. */
     void set(char cposn) {
         // FIXME
-        _setting = _permutation.alphabet().toInt(cposn);
+        _setting = alphabet().toInt(cposn);
     }
 
     /** Return the conversion of P (an integer in the range 0..size()-1)
@@ -78,7 +78,7 @@ class Rotor {
           // FIXME
         int entryCon = _permutation.wrap(e + _setting);
         int exitCon = _permutation.invert(entryCon);
-        return _permutation. wrap(exitCon - _setting);
+        return _permutation.wrap(exitCon - _setting);
     }
 
     /** Returns true iff I am positioned to allow the rotor to my left
