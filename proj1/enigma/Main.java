@@ -102,8 +102,12 @@ public final class Main {
                         throw new EnigmaException("File does not"
                                 + "start with an asterisk");
                     }
-                    String msg = setting.replaceAll(" ", "");
-                    printMessageLine(mach.convert(msg));
+                    if (setting.isEmpty()) {
+                        printMessageLine(mach.convert(setting));
+                    } else {
+                        String msg = setting.replaceAll(" ", "");
+                        printMessageLine(mach.convert(msg));
+                    }
                 }
             }
         } catch (NoSuchElementException excp) {
