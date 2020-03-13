@@ -216,12 +216,13 @@ public final class Main {
      *  have fewer letters). */
     private void printMessageLine(String msg) {
         if (msg.isEmpty()) {
-            _output.print("");
+            _output.println('\n');
         }
         for (int i = 0; i < msg.length(); i += 5) {
             int totalChars = msg.length() - i;
             if (totalChars < 6) {
                 _output.println(msg.substring(i, i + totalChars));
+                _output.println('\n');
             } else {
                 _output.print(msg.substring(i, i + 5) + " ");
             }
