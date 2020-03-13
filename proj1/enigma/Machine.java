@@ -52,19 +52,9 @@ class Machine {
                 throw new EnigmaException("Leftmost rotor is not a reflector");
             }
             if (i == 1) {
-                if (_usedRotors[i].rotates()) {
-                    throw new EnigmaException(i + "th rotor "
-                            + "should be a non-moving rotor");
-                }
                 if (!_usedRotors[i].rotates() && _usedRotors[i].reflecting()) {
                     throw new EnigmaException(i + "th rotor "
                             + "should not be a reflector");
-                }
-            }
-            if (i > 1) {
-                if (!_usedRotors[i].rotates()) {
-                    throw new EnigmaException(i + "th rotor "
-                            + "should be a moving rotor");
                 }
             }
         }
