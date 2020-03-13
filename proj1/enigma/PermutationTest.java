@@ -66,7 +66,6 @@ public class PermutationTest {
     @Test
     public void testInvertChar() {
         Permutation p = getNewPermutation("(BACD)", getNewAlphabet("ABCDEFG"));
-        /* TODO: Add additional assert statements here! */
         assertEquals('B', p.invert('A'));
         assertEquals('D', p.invert('B'));
         assertEquals('C', p.invert('D'));
@@ -109,7 +108,7 @@ public class PermutationTest {
     @Test
     public void testPermuteInt() {
         Permutation p = getNewPermutation("(ABCD)", getNewAlphabet("ABCDEFG"));
-        assertEquals(3, p.permute(2 ));
+        assertEquals(3, p.permute(2));
         assertEquals(0, p.permute(3));
         assertEquals(5, p.permute(5));
         assertEquals(2, p.permute(8));
@@ -144,8 +143,10 @@ public class PermutationTest {
 
     @Test
     public void testDerangement() {
-        Permutation p = getNewPermutation("(ABCDEFGHIJKLMNOPQRSTUVWXYZ)", getNewAlphabet());
-        Permutation p2 = getNewPermutation("(ABCDEFGHIJKLMNOPQRSTUVWXY)", getNewAlphabet());
+        Permutation p = getNewPermutation("(ABCDEFGHIJKL"
+                + "MNOPQRSTUVWXYZ)", getNewAlphabet());
+        Permutation p2 = getNewPermutation("(ABCDEFGHIJKL"
+                + "MNOPQRSTUVWXY)", getNewAlphabet());
         Permutation p3 = getNewPermutation("", getNewAlphabet());
         Permutation p4 = getNewPermutation("(A)(BC)", getNewAlphabet("ABC"));
         assertTrue(p.derangement());

@@ -13,7 +13,7 @@ import static enigma.EnigmaException.*;
 
 
 /** Enigma simulator.
- *  @author
+ *  @author Kelvin Le
  */
 public final class Main {
 
@@ -89,7 +89,6 @@ public final class Main {
      * results to _output.
      */
     private void process() {
-        // FIXME
         try {
             boolean containsAsterisk = false;
             Machine mach = readConfig();
@@ -100,8 +99,8 @@ public final class Main {
                     setUp(mach, setting);
                 } else {
                     if (!containsAsterisk) {
-                        throw new EnigmaException("File does not" +
-                                "start with an asterisk");
+                        throw new EnigmaException("File does not"
+                                + "start with an asterisk");
                     }
                     String msg = setting.replaceAll(" ", "");
                     printMessageLine(mach.convert(msg));
@@ -116,22 +115,25 @@ public final class Main {
      *  file _config. */
     private Machine readConfig() {
         try {
-            // FIXME
             Collection<Rotor> allRotors = new ArrayList<>();
             if (!_config.hasNext()) {
                 throw new EnigmaException("File does not contain alphabet");
             }
             String alpha = _config.next();
-            if (alpha.contains("*") || alpha.contains("(") || alpha.contains(")")) {
-                throw new EnigmaException("Alphabet has incorrect format");
+            if (alpha.contains("*") || alpha.contains("(")
+                    || alpha.contains(")")) {
+                throw new EnigmaException("Alphabet has "
+                        + "incorrect format");
             }
             _alphabet = new Alphabet(alpha);
             if (!_config.hasNextInt()) {
-                throw new EnigmaException("File does not contain a number for rotors");
+                throw new EnigmaException("File does not contain "
+                        + "a number for rotors");
             }
             int numRotors = _config.nextInt();
             if (!_config.hasNextInt()) {
-                throw new EnigmaException("File does not contain a number for pawls");
+                throw new EnigmaException("File does not contain "
+                        + "a number for pawls");
             }
             int pawls = _config.nextInt();
             while (_config.hasNext()) {
@@ -146,7 +148,6 @@ public final class Main {
     /** Return a rotor, reading its description from _config. */
     private Rotor readRotor() {
         try {
-            // FIXME
             String name = _config.next();
             String typeandNotches = _config.next();
             String cycles = "";
@@ -173,7 +174,6 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
-        // FIXME
         settings = settings.replaceAll("\\s+", " ");
         String[] settingsInput = settings.split(" ");
         ArrayList<String> rotorNames = new ArrayList<>();
@@ -193,8 +193,8 @@ public final class Main {
         String rotorSettings = settingsInput[M.numRotors() + 1];
         for (int i = 0; i < rotorSettings.length(); i += 1) {
             if (!_alphabet.contains(rotorSettings.charAt(i))) {
-                throw new EnigmaException("Rotor setting input contains " +
-                        "characters not in alphabet");
+                throw new EnigmaException("Rotor setting input contains "
+                        + "characters not in alphabet");
             }
         }
         M.setRotors(rotorSettings);
@@ -211,7 +211,6 @@ public final class Main {
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        // FIXME
         for (int i = 0; i < msg.length(); i += 5) {
             int totalChars = msg.length() - i;
             if (totalChars < 6) {
