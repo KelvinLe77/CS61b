@@ -103,7 +103,7 @@ public final class Main {
                                 + "start with an asterisk");
                     }
                     if (setting.isEmpty()) {
-                        printMessageLine(mach.convert(setting));
+                        printMessageLine(setting);
                     } else {
                         String msg = setting.replaceAll(" ", "");
                         printMessageLine(mach.convert(msg));
@@ -215,9 +215,6 @@ public final class Main {
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        if (msg.isEmpty()) {
-            _output.println('\n');
-        }
         for (int i = 0; i < msg.length(); i += 5) {
             int totalChars = msg.length() - i;
             if (totalChars < 6) {
