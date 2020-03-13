@@ -215,13 +215,17 @@ public final class Main {
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        for (int i = 0; i < msg.length(); i += 5) {
-            int totalChars = msg.length() - i;
-            if (totalChars < 6) {
-                _output.println(msg.substring(i, i + totalChars));
-                _output.println('\n');
-            } else {
-                _output.print(msg.substring(i, i + 5) + " ");
+        int total = msg.length();
+        if (total == 0) {
+            _output.println();
+        } else {
+            for (int i = 0; i < msg.length(); i += 5) {
+                int totalChars = msg.length() - i;
+                if (totalChars < 6) {
+                    _output.println(msg.substring(i, i + totalChars));
+                } else {
+                    _output.print(msg.substring(i, i + 5) + " ");
+                }
             }
         }
     }
