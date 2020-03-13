@@ -94,7 +94,7 @@ public final class Main {
             Machine mach = readConfig();
             while (_input.hasNextLine()) {
                 String setting = _input.nextLine();
-                if (setting.charAt(0) == '*') {
+                if (setting.split(" ")[0].equals("*")) {
                     containsAsterisk = true;
                     setUp(mach, setting);
                 } else {
