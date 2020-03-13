@@ -215,6 +215,9 @@ public final class Main {
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
+        if (msg.isEmpty()) {
+            _output.print("");
+        }
         for (int i = 0; i < msg.length(); i += 5) {
             int totalChars = msg.length() - i;
             if (totalChars < 6) {
