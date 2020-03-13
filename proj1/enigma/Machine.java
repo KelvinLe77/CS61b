@@ -151,10 +151,14 @@ class Machine {
         String code = "";
         char[] cMsg = msg.toCharArray();
         for (int i = 0; i < cMsg.length; i += 1) {
-            if (cMsg[i] == (' ')) {
-                code += i;
-            }
-            else {
+//            if (cMsg[i] == (' ')) {
+//                code += cMsg[i];
+//            }
+//            else {
+//                code += _alphabet.toChar(convert(_alphabet.toInt(cMsg[i])));
+//            }
+//        }
+            if (cMsg[i] != (' ')) {
                 code += _alphabet.toChar(convert(_alphabet.toInt(cMsg[i])));
             }
         }

@@ -31,11 +31,11 @@ class Permutation {
         /** make hashset to bind characters together*/
         /** make _cycles a Character[] (wrapper) so it is easier to compare chars*/
         _perms = new HashMap<>();
-        _cycles = cycles;
+        _cycles = cycles.trim();
         // FIXME
-        if (_cycles.equals("")) {
-            //map everything to itself
-        }
+//        if (_cycles.equals("")) {
+//            //map everything to itself
+//        }
         /** checks for well formed cycles and puts cycles into list
          * havent decided what kind of list
          * char[]? Character[]? String[]?*/

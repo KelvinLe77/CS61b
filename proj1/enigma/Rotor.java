@@ -54,7 +54,7 @@ class Rotor {
     void set(int posn) {
         // FIXME
         //_setting = permutation().wrap(posn);
-        _setting = posn;
+        _setting = _permutation.wrap(posn);
     }
 
     /** Set setting() to character CPOSN. */
