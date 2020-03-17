@@ -26,7 +26,20 @@ public class TreeMap<K extends Comparable<K>, V> implements SimpleMap<K, V> {
      */
     private TreeMapNode putHelper(TreeMapNode node, K key, V value) {
         // FIXME
-        return null;
+        if (node == null) {
+            return new TreeMapNode(key, value, null, null);
+        }
+        int vals = key.compareTo(node._key);
+        if (node._key == key) {
+            node._value = value;
+        }
+        if (vals < 0) {
+            node._left = putHelper(node._left, key, value);
+        }
+        if (vals > 0) {
+            node._right = putHelper(node._right, key, value);
+        }
+        return node;
     }
 
     /**
@@ -39,7 +52,17 @@ public class TreeMap<K extends Comparable<K>, V> implements SimpleMap<K, V> {
      */
     private V getHelper(TreeMapNode node, K key) {
         // FIXME
-        return null;
+        if (node == null) {
+            return null;
+        }
+        int vals = key.compareTo(node._key);
+        if (vals < 0) {
+            return getHelper(node._left, key);
+        } if (vals > 0) {
+            return getHelper(node._right, key);
+        } else {
+            return node._value;
+        }
     }
 
     private TreeMapNode _root;
