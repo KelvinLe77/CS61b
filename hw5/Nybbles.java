@@ -25,7 +25,12 @@ public class Nybbles {
         if (k < 0 || k >= _n) {
             throw new IndexOutOfBoundsException();
         } else {
-            return 0; // REPLACE WITH SOLUTION
+            int eger = _data[k / 8] >>> k % 8 * 4;
+            eger &= 0b1111; // REPLACE WITH SOLUTION
+            if (eger >= 8) {
+                return eger - 16;
+            }
+            return eger;
         }
     }
 
@@ -38,6 +43,8 @@ public class Nybbles {
             throw new IllegalArgumentException();
         } else {
             _data[0] = 0; // REPLACE WITH SOLUTION
+            
+
         }
     }
 

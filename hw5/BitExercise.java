@@ -19,7 +19,19 @@ public class BitExercise {
     * For example: 2, 32, and 8192 are powers of two.
     */
     public static boolean powerOfTwo(int x) {
-        return false; //TODO: Your code here
+        if (x == 0) {
+            return false;
+        }
+        else {
+            while (x % 2 == 0) x /= 2;
+            if (x == 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+         //TODO: Your code here
     }
     
     /** Fill in the function below so that it returns 
@@ -29,6 +41,6 @@ public class BitExercise {
     * absolute(-1) should return 1.
     */
     public static int absolute(int x) {
-        return 0; //TODO: your code here
+        return x + (x>> 31)^ (x >> 31); //TODO: your code here
     } 
 }
