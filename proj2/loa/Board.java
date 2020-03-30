@@ -54,6 +54,13 @@ class Board {
         // FIXME
         _turn = side;
         _moveLimit = DEFAULT_MOVE_LIMIT;
+        for (int i = 0; i < contents.length; i += 1) {
+            int k = contents.length;
+            k = k * i;
+            for (int j = 0; j < contents[i].length; j += 1) {
+                _board[k + j] = contents[i][j];
+            }
+        }
     }
 
     /** Set me to the initial configuration. */
@@ -67,6 +74,9 @@ class Board {
             return;
         }
         // FIXME
+        for (int i = 0; i < board._board.length; i += 1) {
+            _board[i] = board._board[i];
+        }
     }
 
     /** Return the contents of the square at SQ. */
@@ -78,6 +88,10 @@ class Board {
      *  to NEXT, if NEXT is not null. */
     void set(Square sq, Piece v, Piece next) {
         // FIXME
+        _board[sq.index()] = v;
+        if (next != null) {
+            _turn = next;
+        }
     }
 
     /** Set the square at SQ to V, without modifying the side that
@@ -100,6 +114,10 @@ class Board {
     void makeMove(Move move) {
         assert isLegal(move);
         // FIXME
+        assert !move.isCapture();
+        //how does one move?
+        _board[move.getFrom().index()] = EMP;
+        _board[move.getTo().index()] = _turn;
     }
 
     /** Retract (unmake) one move, returning to the state immediately before
@@ -107,6 +125,7 @@ class Board {
     void retract() {
         assert movesMade() > 0;
         // FIXME
+
     }
 
     /** Return the Piece representing who is next to move. */
