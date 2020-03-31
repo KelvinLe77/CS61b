@@ -77,6 +77,10 @@ class Board {
         for (int i = 0; i < board._board.length; i += 1) {
             _board[i] = board._board[i];
         }
+        _turn = board._turn;
+        for (int i = 0; i < board._moves.size(); i += 1) {
+            _moves.set(i, board._moves.get(i));
+        }
     }
 
     /** Return the contents of the square at SQ. */
@@ -114,10 +118,17 @@ class Board {
     void makeMove(Move move) {
         assert isLegal(move);
         // FIXME
-        assert !move.isCapture();
-        //how does one move?
-        _board[move.getFrom().index()] = EMP;
-        _board[move.getTo().index()] = _turn;
+        if (get(move.getTo()).equals(EMP)) {
+            move = Move.mv(move.getFrom(), move.getTo());
+            set(move.getFrom(), EMP);
+            set(move.getTo(), _turn, _turn.opposite());
+        } else {
+            move = move.captureMove();
+            set(move.getFrom(), EMP);
+            set(move.getTo(), _turn, _turn.opposite());
+        }
+        _moves.add(move);
+        _moveLimit = _moveLimit - 1;
     }
 
     /** Retract (unmake) one move, returning to the state immediately before
@@ -125,7 +136,16 @@ class Board {
     void retract() {
         assert movesMade() > 0;
         // FIXME
-
+        _moveLimit += 1;
+        Move lastMove = _moves.get(_moves.size() - 1);
+        set(lastMove.getFrom(), _turn.opposite());
+        if (!lastMove.isCapture()) {
+            set(lastMove.getTo(), EMP);
+        } else {
+            set(lastMove.getTo(), _turn);
+        }
+        _turn = _turn.opposite();
+        _moves.remove(_moves.size() - 1);
     }
 
     /** Return the Piece representing who is next to move. */
