@@ -114,6 +114,7 @@ public class BoardTest {
     public void testMove1() {
         Board b0 = new Board(BOARD1, BP);
         Board b1 = new Board(BOARD1, BP);
+        System.out.println(b1.toString());
         b1.makeMove(mv("f3-d5"));
         assertEquals("square d5 after f3-d5", BP, b1.get(sq(3, 4)));
         assertEquals("square f3 after f3-d5", EMP, b1.get(sq(5, 2)));

@@ -21,7 +21,8 @@ class HumanPlayer extends Player {
 
     @Override
     String getMove() {
-        return "";          // FIXME
+        // FIXME
+        return getGame().readLine(isManual());
     }
 
     @Override

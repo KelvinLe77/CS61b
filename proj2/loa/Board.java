@@ -2,6 +2,7 @@
  * University of California.  All rights reserved. */
 package loa;
 
+import javax.swing.border.EmptyBorder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -171,12 +172,16 @@ class Board {
             int dir = from.direction(to);
             int reverseDir = to.direction(from);
             int numOnLine = 1;
-            for (int i = 0; i < Math.sqrt(_board.length); i += 1) {
+            for (int i = 1; i < Math.sqrt(_board.length); i += 1) {
                 if (from.moveDest(dir, i) != null) {
-                    numOnLine += 1;
+                    if (_board[from.moveDest(dir, i).index()] != EMP) {
+                        numOnLine += 1;
+                    }
                 }
                 if (from.moveDest(reverseDir, i) != null) {
-                    numOnLine += 1;
+                    if (_board[from.moveDest(reverseDir, i).index()] != EMP) {
+                        numOnLine += 1;
+                    }
                 }
             }
             if (numOnLine == from.distance(to)) {
