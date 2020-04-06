@@ -72,18 +72,108 @@ class MachinePlayer extends Player {
     private int findMove(Board board, int depth, boolean saveMove,
                          int sense, int alpha, int beta) {
         // FIXME
-        if (saveMove) {
-            _foundMove = null; // FIXME
+        //if depth is zero, calculate here???
+        //have to figure out how savemove works
+        if (depth == 0 || board.gameOver()) {
+            heuristic(board, sense);
         }
-        return 0; // FIXME
+        int bestVal = 0;
+        for (Move move : board.legalMoves()) {
+            Board copy = new Board(board);
+            copy.makeMove(move);
+            int score = findMove(copy, depth - 1, false, -sense, alpha, beta);
+            if (score > bestVal) {
+                bestVal = score;
+                if (saveMove) {
+                    _foundMove = move; // FIXME
+                }
+                //_foundMove = move;
+            }
+            if (sense == 1) {
+                alpha = Math.max(score, alpha);
+                //sense = -sense;
+            } else {
+                beta = Math.min(score, beta);
+                //sense = -sense;
+            }
+            if (alpha >= beta) {
+                break;
+            }
+        }
+//        if (saveMove) {
+//            _foundMove = null; // FIXME
+//        }
+        //return 0; // FIXME
+        return bestVal;
     }
 
     /** Return a search depth for the current position. */
     private int chooseDepth() {
-        return 1;  // FIXME
+        return 2;  // FIXME
     }
 
     // FIXME: Other methods, variables here.
+    private int heuristic(Board board, int Sense) {
+        int val = 0;
+        if (Sense == 1) {
+            if (board.winner() == WP) {
+                return WINNING_VALUE;
+            }
+            /** if they have same # of regions and white has less pieces than black*/
+            if (board.getRegionSizes(board.turn()).size() == board.getRegionSizes(board.turn()).size()) {
+                int whitePieces = 0; int blackPieces = 0;
+                for (int region : board.getRegionSizes(board.turn())) {
+                    whitePieces += region;
+                }
+                for (int region : board.getRegionSizes(board.turn().opposite())) {
+                    blackPieces += region;
+                }
+                if (whitePieces < blackPieces) {
+                    val += 5;
+                }
+            }
+            /** if white has less regions than black*/
+            if (board.getRegionSizes(board.turn()).size() < board.getRegionSizes(board.turn()).size()) {
+                val += 10;
+            }
+            /** if white has one move to win*/
+            if (board.getRegionSizes(board.turn()).size() == 2) {
+                if (board.getRegionSizes(board.turn()).get(1) == 1) {
+                    val += 20;
+                }
+            }
+        }
+        if (Sense == -1) {
+            if (board.winner() == BP) {
+                return  -WINNING_VALUE;
+            }
+            /** if they have same # of regions and black has less pieces than white**/
+            if (board.getRegionSizes(board.turn()).size() == board.getRegionSizes(board.turn()).size()) {
+                int whitePieces = 0;
+                int blackPieces = 0;
+                for (int region : board.getRegionSizes(board.turn())) {
+                    whitePieces += region;
+                }
+                for (int region : board.getRegionSizes(board.turn().opposite())) {
+                    blackPieces += region;
+                }
+                if (whitePieces > blackPieces) {
+                    val += -5;
+                }
+            }
+            /** if black has less regions than white*/
+            if (board.getRegionSizes(board.turn()).size() > board.getRegionSizes(board.turn()).size()) {
+                val += -10;
+            }
+            /** if black has one move to win*/
+            if (board.getRegionSizes(board.turn()).size() == 2) {
+                if (board.getRegionSizes(board.turn()).get(1) == 1) {
+                    val += -20;
+                }
+            }
+        }
+        return val;
+    }
 
     /** Used to convey moves discovered by findMove. */
     private Move _foundMove;
