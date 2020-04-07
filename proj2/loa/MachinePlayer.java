@@ -145,7 +145,7 @@ class MachinePlayer extends Player {
                         : board.getRegionSizes(board.turn().opposite())) {
                     blackPieces += region;
                 }
-                if (whitePieces > blackPieces) {
+                if (whitePieces < blackPieces) {
                     val += -5;
                 }
             }
