@@ -5,7 +5,7 @@ package loa;
 import static loa.Piece.*;
 
 /** An automated Player.
- *  @author
+ *  @author Kelvin Le
  */
 class MachinePlayer extends Player {
 
@@ -71,9 +71,6 @@ class MachinePlayer extends Player {
      *  on BOARD, does not set _foundMove. */
     private int findMove(Board board, int depth, boolean saveMove,
                          int sense, int alpha, int beta) {
-        // FIXME
-        //if depth is zero, calculate here???
-        //have to figure out how savemove works
         if (depth == 0 || board.gameOver()) {
             return heuristic(board, sense);
         }
@@ -85,90 +82,82 @@ class MachinePlayer extends Player {
             if (score > bestVal) {
                 bestVal = score;
                 if (saveMove) {
-                    _foundMove = move; // FIXME
+                    _foundMove = move;
+                } else {
+                    _foundMove = null;
                 }
-                //_foundMove = move;
             }
             if (sense == 1) {
                 alpha = Math.max(score, alpha);
-                //sense = -sense;
             } else {
                 beta = Math.min(score, beta);
-                //sense = -sense;
             }
             if (alpha >= beta) {
                 break;
             }
         }
-//        if (saveMove) {
-//            _foundMove = null; // FIXME
-//        }
-        //return 0; // FIXME
         return bestVal;
     }
 
     /** Return a search depth for the current position. */
     private int chooseDepth() {
-        return 2;  // FIXME
+        return 2;
     }
 
-    // FIXME: Other methods, variables here.
-    private int heuristic(Board board, int Sense) {
+    /** Returns an int, for a player represented by SENSE,
+     * representing the value of a BOARD. */
+    int heuristic(Board board, int sense) {
         int val = 0;
-        if (Sense == 1) {
+        if (sense == 1) {
             if (board.winner() == WP) {
                 return WINNING_VALUE;
             }
-            /** if they have same # of regions and white has less pieces than black*/
-            //if (board.getRegionSizes(board.turn()).size() == board.getRegionSizes(board.turn()).size()) {
-                int whitePieces = 0; int blackPieces = 0;
-                for (int region : board.getRegionSizes(board.turn())) {
-                    whitePieces += region;
-                }
-                for (int region : board.getRegionSizes(board.turn().opposite())) {
-                    blackPieces += region;
-                }
-                if (whitePieces < blackPieces) {
-                    val += 5;
-                }
-            //}
-            /** if white has less regions than black*/
-            if (board.getRegionSizes(board.turn()).size() < board.getRegionSizes(board.turn()).size()) {
+            int whitePieces = 0; int blackPieces = 0;
+            for (int region : board.getRegionSizes(board.turn())) {
+                whitePieces += region;
+            }
+            for (int region : board.getRegionSizes(board.turn().opposite())) {
+                blackPieces += region;
+            }
+            if (whitePieces < blackPieces) {
+                val += 5;
+            }
+            if (board.getRegionSizes(board.turn()).size()
+                    < board.getRegionSizes(board.turn()).size()) {
                 val += 10;
             }
-            /** if white has one move to win*/
             if (board.getRegionSizes(board.turn()).size() == 2) {
                 if (board.getRegionSizes(board.turn()).get(1) == 1) {
-                    val += 20;
+                    val += 16;
                 }
             }
         }
-        if (Sense == -1) {
+        if (sense == -1) {
             if (board.winner() == BP) {
                 return  -WINNING_VALUE;
             }
-            /** if they have same # of regions and black has less pieces than white**/
-            if (board.getRegionSizes(board.turn()).size() == board.getRegionSizes(board.turn()).size()) {
+            if (board.getRegionSizes(board.turn()).size()
+                    == board.getRegionSizes(board.turn()).size()) {
                 int whitePieces = 0;
                 int blackPieces = 0;
                 for (int region : board.getRegionSizes(board.turn())) {
                     whitePieces += region;
                 }
-                for (int region : board.getRegionSizes(board.turn().opposite())) {
+                for (int region
+                        : board.getRegionSizes(board.turn().opposite())) {
                     blackPieces += region;
                 }
                 if (whitePieces > blackPieces) {
                     val += -5;
                 }
             }
-            /** if black has less regions than white*/
-            if (board.getRegionSizes(board.turn()).size() > board.getRegionSizes(board.turn()).size()) {
+            if (board.getRegionSizes(board.turn()).size()
+                    > board.getRegionSizes(board.turn()).size()) {
                 val += -10;
             }
-            /** if black has one move to win*/
             if (board.getRegionSizes(board.turn()).size() == 2) {
                 if (board.getRegionSizes(board.turn()).get(1) == 1) {
-                    val += -20;
+                    val += -16;
                 }
             }
         }
