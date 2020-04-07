@@ -34,6 +34,7 @@ class MachinePlayer extends Player {
         int depth;
         choice = searchForMove();
         getGame().reportMove(choice);
+        System.out.println(choice);
         return choice.toString();
     }
 
@@ -146,12 +147,12 @@ class MachinePlayer extends Player {
                     blackPieces += region;
                 }
                 if (whitePieces < blackPieces) {
-                    val += -5;
+                    val += 6;
                 }
             }
             if (board.getRegionSizes(board.turn()).size()
                     < board.getRegionSizes(board.turn()).size()) {
-                val += -10;
+                val += 15;
             }
             if (board.getRegionSizes(board.turn()).size() == 2) {
                 if (board.getRegionSizes(board.turn()).get(1) == 1) {
