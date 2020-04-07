@@ -79,13 +79,11 @@ class MachinePlayer extends Player {
             Board copy = new Board(board);
             copy.makeMove(move);
             int score = findMove(copy, depth - 1, false, -sense, alpha, beta);
+            if (saveMove) {
+                _foundMove = move;
+            }
             if (score > bestVal) {
                 bestVal = score;
-                if (saveMove) {
-                    _foundMove = move;
-                } else {
-                    _foundMove = null;
-                }
             }
             if (sense == 1) {
                 alpha = Math.max(score, alpha);

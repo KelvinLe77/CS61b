@@ -77,7 +77,6 @@ class Board {
             _board[i] = board._board[i];
         }
         _turn = board._turn;
-        _moves.clear();
         _moves.addAll(board._moves);
     }
 
