@@ -75,7 +75,7 @@ class MachinePlayer extends Player {
         //if depth is zero, calculate here???
         //have to figure out how savemove works
         if (depth == 0 || board.gameOver()) {
-            heuristic(board, sense);
+            return heuristic(board, sense);
         }
         int bestVal = 0;
         for (Move move : board.legalMoves()) {
@@ -120,7 +120,7 @@ class MachinePlayer extends Player {
                 return WINNING_VALUE;
             }
             /** if they have same # of regions and white has less pieces than black*/
-            if (board.getRegionSizes(board.turn()).size() == board.getRegionSizes(board.turn()).size()) {
+            //if (board.getRegionSizes(board.turn()).size() == board.getRegionSizes(board.turn()).size()) {
                 int whitePieces = 0; int blackPieces = 0;
                 for (int region : board.getRegionSizes(board.turn())) {
                     whitePieces += region;
@@ -131,7 +131,7 @@ class MachinePlayer extends Player {
                 if (whitePieces < blackPieces) {
                     val += 5;
                 }
-            }
+            //}
             /** if white has less regions than black*/
             if (board.getRegionSizes(board.turn()).size() < board.getRegionSizes(board.turn()).size()) {
                 val += 10;

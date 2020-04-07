@@ -80,9 +80,8 @@ class Board {
             _board[i] = board._board[i];
         }
         _turn = board._turn;
-        for (int i = 0; i < board._moves.size(); i += 1) {
-            _moves.set(i, board._moves.get(i));
-        }
+        _moves.clear();
+        _moves.addAll(board._moves);
     }
 
     /** Return the contents of the square at SQ. */
@@ -237,7 +236,7 @@ class Board {
                 _winner = EMP;
             } else if (getRegionSizes(_turn).size() == 1
                     && getRegionSizes(_turn.opposite()).size() == 1) {
-                _winner = _turn;
+                _winner = _turn.opposite(); //..................................................
             } else if (getRegionSizes(_turn).size() == 1
                     && getRegionSizes(_turn.opposite()).size() > 1) {
                 _winner = _turn;
