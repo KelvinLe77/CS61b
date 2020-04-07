@@ -150,7 +150,7 @@ class MachinePlayer extends Player {
                 }
             }
             if (board.getRegionSizes(board.turn()).size()
-                    > board.getRegionSizes(board.turn()).size()) {
+                    < board.getRegionSizes(board.turn()).size()) {
                 val += -10;
             }
             if (board.getRegionSizes(board.turn()).size() == 2) {
