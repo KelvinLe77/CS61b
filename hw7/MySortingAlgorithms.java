@@ -43,6 +43,18 @@ public class MySortingAlgorithms {
         @Override
         public void sort(int[] array, int k) {
             // FIXME
+            for (int i = 1; i < k; i += 1) {
+                int curr = array[i];
+                int j = i - 1;
+                while (j >= 0) {
+                    if (array[i] < array[j]) {
+                        array[i] = array[j];
+                        array[j] = curr;
+                    }
+                    j -= 1;
+                    i -= 1;
+                }
+            }
         }
 
         @Override
@@ -61,6 +73,17 @@ public class MySortingAlgorithms {
         @Override
         public void sort(int[] array, int k) {
             // FIXME
+            for (int i = 0; i < k - 1; i += 1) {
+                int min = i;
+                for (int j = i + 1; j < k; j += 1) {
+                    if (array[j] < array[min]) {
+                        min = j;
+                    }
+                }
+                int temp = array[min];
+                array[min] = array[i];
+                array[i] = temp;
+            }
         }
 
         @Override
