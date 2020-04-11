@@ -52,7 +52,6 @@ public class MySortingAlgorithms {
                         array[j] = curr;
                     }
                     j -= 1;
-                    i -= 1;
                 }
             }
         }
