@@ -1,6 +1,9 @@
 package capers;
 
+import com.sun.tools.corba.se.idl.Util;
+
 import java.io.File;
+import java.io.IOException;
 
 /** Canine Capers: A Gitlet Prelude.
  * @author Sean Dooher
@@ -10,7 +13,7 @@ public class Main {
     static final File CWD = new File(".");
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = null; // FIXME
+    static final File CAPERS_FOLDER = Utils.join(".capers", "dogs"); // FIXME
 
     /**
      * Runs one of three commands:
@@ -50,6 +53,12 @@ public class Main {
             writeStory(args);
             break;
         // FIXME
+            case "dog":
+                makeDog(args);
+                break;
+            case "birthday":
+                celebrateBirthday(args);
+                break;
         default:
             exitWithError(String.format("Unknown command: %s", args[0]));
         }
@@ -68,6 +77,17 @@ public class Main {
      */
     public static void setupPersistence() {
         // FIXME
+        try {
+            CAPERS_FOLDER.mkdir();
+            File dogs = new File("dogs");
+            dogs.mkdir();
+            Utils.join(".capers", "dogs");
+            File story = new File("story");
+            story.createNewFile();
+            Utils.join(".capers", "story");
+        } catch (IOException IOE) {
+            System.out.println("story file or .capers file does not exist");
+        }
     }
 
     /**
