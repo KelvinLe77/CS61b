@@ -46,13 +46,12 @@ public class MySortingAlgorithms {
             for (int i = 1; i < k; i += 1) {
                 int curr = array[i];
                 int j = i - 1;
-                while (j >= 0) {
-                    if (array[i] < array[j]) {
-                        array[i] = array[j];
-                        array[j] = curr;
-                    }
+                while (j >= 0 && array[j] > curr) {
+
+                    array[j + 1] = array[j];
                     j -= 1;
                 }
+                array[j + 1] = curr;
             }
         }
 
