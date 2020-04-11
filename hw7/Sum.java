@@ -13,7 +13,8 @@ public class Sum {
             c.add(a);
             if (a < m && !c.contains(a)) {
                 for (int b : B) {
-                    if (b < m) {
+                    c.add(b);
+                    if (b < m && !c.contains(b)) {
                         if (b + a == m) {
                             return true;
                         }
