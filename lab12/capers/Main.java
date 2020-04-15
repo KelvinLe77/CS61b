@@ -82,9 +82,9 @@ public class Main {
             File dogs = new File("dogs");
             dogs.mkdir();
             Utils.join(".capers", "dogs");
-            File story = new File("story");
+            File story = new File("story.txt");
             story.createNewFile();
-            Utils.join(".capers", "story");
+            Utils.join(".capers", "story.txt");
         } catch (IOException IOE) {
             System.out.println("story file or .capers file does not exist");
         }
@@ -98,6 +98,7 @@ public class Main {
     public static void writeStory(String[] args) {
         validateNumArgs("story", args, 2);
         // FIXME
+        File a = new File(".capers/story.txt");
     }
 
     /**
