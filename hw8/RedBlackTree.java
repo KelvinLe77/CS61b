@@ -63,7 +63,11 @@ public class RedBlackTree<T extends Comparable<T>> {
      */
     RBTreeNode<T> rotateLeft(RBTreeNode<T> node) {
         // YOUR CODE HERE
-        return null;
+        if (node.right == null) {
+            return node;
+        }
+        RBTreeNode<T> leftTree = new RBTreeNode<>(false, node.item, node.left, node.right.left);
+        return new RBTreeNode<>(!node.isBlack, node.right.item, leftTree, node.right.right);
     }
 
     /**
@@ -113,7 +117,7 @@ public class RedBlackTree<T extends Comparable<T>> {
         // Insert (return) new red leaf node.
         if (node == null) {
             // YOUR CODE HERE
-
+            node = new RBTreeNode<>(false, item);
         }
 
         // Handle normal binary search tree insertion.
@@ -122,28 +126,28 @@ public class RedBlackTree<T extends Comparable<T>> {
             return node; // do nothing.
         } else if (comp < 0) {
             // YOUR CODE HERE
-
+            node.left = insert(node.left, item);
         } else {
             // YOUR CODE HERE
-
+            node.right = insert(node.right, item);
         }
 
         // handle case C and "Right-leaning" situation.
         if (isRed(node.right) && !isRed(node.left)) {
             // YOUR CODE HERE
-
+            node = rotateLeft(node);
         }
 
         // handle case B
         if (isRed(node.left) && isRed(node.left.left)) {
             // YOUR CODE HERE
-
+            node = rotateRight(node);
         }
 
         // handle case A
         if (isRed(node.left) && isRed(node.right)) {
             // YOUR CODE HERE
-
+            flipColors(node);
         }
         return node;
     }
