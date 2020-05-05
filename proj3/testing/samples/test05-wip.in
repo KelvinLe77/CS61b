@@ -1,0 +1,10 @@
+> init
+<<<
++ pug.txt pug.txt
+> add pug.txt
+<<<
++ wug.txt notwug.txt
+> add pug.txt
+<<<
+>rm pug.txt
+No changes added to the commit.

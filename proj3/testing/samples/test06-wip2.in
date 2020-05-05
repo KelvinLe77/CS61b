@@ -1,0 +1,7 @@
+> init
+<<<
++ pug.txt pug.txt
+> add pug.txt
+<<<
+>rm wug.txt
+No reason to remove the file.
