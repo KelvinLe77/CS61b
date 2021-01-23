@@ -65,7 +65,6 @@ public class BuggyIntDListTest {
         assertEquals(".getBack() should be 1", 5, l.getBack());
         assertEquals("First item should be 1", 5, l.get(0));
         assertEquals("Last item should be 1", 5, l.get(-1));
-
     }
 
     /**

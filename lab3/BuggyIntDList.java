@@ -43,7 +43,6 @@ public class BuggyIntDList extends IntDList {
                 return d1;
             }
         }
-
         // ------------------------------------------------------------------
 
         if (d1._val <= d2._val) {
