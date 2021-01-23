@@ -31,7 +31,7 @@ public class BitExercise {
                 return false;
             }
         }
-         //TODO: Your code here
+         //TODO: Your code here 
     }
     
     /** Fill in the function below so that it returns 
