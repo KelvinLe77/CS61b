@@ -3,6 +3,7 @@
  *
  * @author Matthew Owen
  */
+
 public class SubstringFilter extends TableFilter {
 
     public SubstringFilter(Table input, String colName, String subStr) {

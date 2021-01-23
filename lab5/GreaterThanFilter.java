@@ -3,6 +3,7 @@
  *
  * @author Matthew Owen
  */
+
 public class GreaterThanFilter extends TableFilter {
 
     public GreaterThanFilter(Table input, String colName, String ref) {

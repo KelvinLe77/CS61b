@@ -18,7 +18,6 @@ public class EqualityFilter extends TableFilter {
         // FIXME: Replace this line with your code.
         Table.TableRow row = candidateNext();
         return row.getValue(iInput.colNameToIndex(iColName)).equals(iMatch);
-
     }
 
     // FIXME: Add instance variables?

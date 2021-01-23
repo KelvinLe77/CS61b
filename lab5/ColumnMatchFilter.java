@@ -3,6 +3,7 @@
  *
  * @author Matthew Owen
  */
+
 public class ColumnMatchFilter extends TableFilter {
 
     public ColumnMatchFilter(Table input, String colName1, String colName2) {
