@@ -146,6 +146,4 @@ class Place {
 
     /** Places already generated. */
     private static Place[][] _places = new Place[10][10];
-
-
 }
