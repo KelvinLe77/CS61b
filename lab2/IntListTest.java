@@ -3,6 +3,7 @@ import org.junit.Test;
 
 public class IntListTest {
 
+
     /** Sample test that verifies correctness of the IntList.list static
      *  method. The main point of this is to convince you that
      *  assertEquals knows how to handle IntLists just fine.
