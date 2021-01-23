@@ -17,5 +17,4 @@ public class P2Pattern {
 
     /* Pattern to match a valid IPv4 address. Eg: 127.0.0.1 */
     public static String P5 = "";; //FIXME: Add your regex here
-
 }
