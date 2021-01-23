@@ -1,6 +1,7 @@
 /** A couple of arithmetic functions.
  *  @author
  */
+
 public class Arithmetic {
 
     /** Returns the product of A and B. */

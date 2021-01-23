@@ -107,7 +107,6 @@ public class CompoundInterest {
         System.out.println(savingsSummary);
     }
 
-
     /* Parameters for the analysis. */
     /** The year of interest. */
     static final int TARGET_YEAR = 2059;

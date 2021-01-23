@@ -15,7 +15,6 @@ public class MultiArr {
     */
     public static void printRowAndCol(int[][] arr) {
         //TODO: Your code here!
-
     } 
 
     /**
