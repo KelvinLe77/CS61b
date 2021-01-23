@@ -195,6 +195,7 @@ public class ArrayHeap<T> {
 //                index = getRightOf(index);
 //            }
 //        }
+        
         int next = min(getLeftOf(index), getRightOf(index));
         Node nextNode = getNode(next);
         if (nextNode == null) {
