@@ -24,5 +24,4 @@ public class Sum {
         }
         return false;
     }
-
 }

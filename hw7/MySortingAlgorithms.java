@@ -100,7 +100,6 @@ public class MySortingAlgorithms {
         public void sort(int[] array, int k) {
             // FIXME
         }
-
         // may want to add additional methods
 
         @Override
@@ -199,5 +198,4 @@ public class MySortingAlgorithms {
         a[i] = a[j];
         a[j] = swap;
     }
-
 }
