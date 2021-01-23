@@ -2,6 +2,7 @@
  *  Such integers may be represented in 4 bits (called nybbles).
  *  @author
  */
+
 public class Nybbles {
 
     /** Maximum positive value of a Nybble. */
