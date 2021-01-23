@@ -53,7 +53,6 @@ public class AmortizationTiming {
                 for (int i = 1; i <= maxSize; i += 1) {
                     xVals.add(i * 1.0);
                 }
-
                 GraphUtil mainPanel = new GraphUtil(allscores, xVals, Arrays.asList(dataLabels), "Amortization Timing","Size of Array", "Microseconds");
                 mainPanel.showGraph();
             }
