@@ -50,9 +50,6 @@ Checkout and changes the branch head
 ### Find
 Finds commit or commits based on the inputted commit message
 
-
-
-
 ## Algorithms
 
 ### History Class 
