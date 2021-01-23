@@ -14,7 +14,7 @@ Q: How does changing nrepeats change the plot?
 A: It makes the lines more evened out. Probably, taking the mean of each point for every repeat or something like that.
 
 Q: Is your plot the exact same as your partner's plot, even with the same values of ntrials, by, and nrepeats?
-A: Do not have a partner but when I run it multiple times, the results differ slightly but are generally the same. 
+A: Do not have a partner but when I run it multiple times, the results differ slightly but are generally the same.
 
 Q: Optional: Look at the source code for BubbleSorter to WipingBubbleSorter. After looking at the plots, can you intuitively explain why WipingBubbleSorter is usually 2x as fast as BubbleSorter? (Hint: Consider the immobility of some elements when the swapping passes are single directional (i.e. only going forward), and how this "Wiping" strategy helps deal with that issue.) Can you come up with an example that shows the difference in runtime?
 A: I believe it is because WipingBubbleSorter takes in account if array[j] > array[j + 1] as well as array[j] < array[j - 1]. Also, iterating from the end of the list also moves smaller value elements to the front of the list quicker.

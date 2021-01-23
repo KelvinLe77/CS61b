@@ -14,7 +14,7 @@ Q: When are there spikes in the per operation runtime graphs for each of the imp
 A: The spikes represent when the lists are resized. Most of the spikes make sense because every time they occur, the next one usually appears two times the time it took the previous spike to occur.
 
 Q: Optional: Try changing the code for GeomGrowList to resize by a different factor. How does this effect the theoretical asymptotic runtime? How does this effect the plotted runtime?
-A:
+A: .
 
 Q: Optional: Try changing the code for ArithGrowList to resize by adding a different fixed number of spots in the array. How does this effect the theoretical asymptotic runtime? How does this effect the plotted runtime?
 A:
