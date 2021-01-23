@@ -8,8 +8,6 @@ public class WeirdList {
     private WeirdList tail;
     private int head;
 
-
-
     /** A new WeirdList whose head is HEAD and tail is TAIL. */
     public WeirdList(int head, WeirdList tail) { 
         /* TODO: FILL IN */
