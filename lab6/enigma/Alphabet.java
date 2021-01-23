@@ -44,5 +44,4 @@ abstract class Alphabet {
      * @param ch the character to convert to its index in the Alphabet
      */
     abstract int toInt(char ch);
-
 }
