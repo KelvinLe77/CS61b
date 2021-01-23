@@ -3,6 +3,7 @@ package capers;
 import java.io.File;
 import java.io.Serializable;
 
+
 /** Represents a dog that can be serialized.
  * @author Sean Dooher
 */
