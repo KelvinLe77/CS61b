@@ -66,8 +66,7 @@ public class NFA {
 
     /** For a String representation. */
     private String _pattern;
-
-
+    
     /** The internal States in an NFA. */
     // TODO: Read this inner class, then you may delete this comment
     private class State {
