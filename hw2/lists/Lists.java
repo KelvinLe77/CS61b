@@ -1,8 +1,5 @@
 package lists;
 
-/* NOTE: The file Utils.java contains some functions that may be useful
- * in testing your answers. */
-
 /** HW #2, Problem #1. */
 
 /** List problem.
