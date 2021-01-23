@@ -1,4 +1,5 @@
 public class hw0 {
+  
 
   public static void main(String[] args) {
     int[] b = {1, 2, 1, -2, 5};
@@ -42,3 +43,4 @@ public class hw0 {
     return false;
   }
 }
+
